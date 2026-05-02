@@ -14,7 +14,8 @@ export interface SearchProps {
 
 export interface SearchState {
   searchTerm: string;
-  data?: AstronomicalObject[]
+  isLoading: boolean;
+  data?: AstronomicalObject[];
 }
 
 export interface ApiResponse {

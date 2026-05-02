@@ -6,6 +6,7 @@ import type {
   SearchState,
   ApiResponse,
 } from '../../interfaces/interfaces';
+import SpinnerComponent from '../spinner/spinnerComponent';
 
 export default class SearchComponent extends Component<
   SearchProps,
@@ -13,7 +14,10 @@ export default class SearchComponent extends Component<
 > {
   constructor(props: SearchProps) {
     super(props);
-    this.state = { searchTerm: localStorage.getItem('searchTerm') || '' };
+    this.state = {
+      searchTerm: localStorage.getItem('searchTerm') || '',
+      isLoading: false,
+    };
   }
 
   componentDidMount() {
@@ -24,14 +28,14 @@ export default class SearchComponent extends Component<
     this.setState({ searchTerm: event.currentTarget.value });
   };
 
-  handleOnClick = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ): void => {
+  handleOnClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
     this.fetchData();
   };
 
   fetchData = async (): Promise<ApiResponse> => {
+    this.setState({ isLoading: true });
+
     const title = this.state.searchTerm.trim();
     localStorage.setItem('searchTerm', title);
 
@@ -48,7 +52,10 @@ export default class SearchComponent extends Component<
       );
 
       const apiResponse = (await response.json()) as ApiResponse;
-      this.setState({ data: apiResponse.astronomicalObjects });
+      this.setState({
+        data: apiResponse.astronomicalObjects,
+        isLoading: false,
+      });
       return apiResponse;
     } catch (error) {
       console.error(error);
@@ -56,7 +63,7 @@ export default class SearchComponent extends Component<
   };
 
   render(): ReactNode {
-    const { data } = this.state;
+    const { data, isLoading } = this.state;
     return (
       <div className="search-component">
         <h1>Star Track Astronomical Objects Search:</h1>
@@ -79,6 +86,8 @@ export default class SearchComponent extends Component<
                 <p>No actronomical object found for the given search term.</p>
               ))}
           </div>
+
+          {isLoading && <SpinnerComponent />}
         </div>
       </div>
     );
