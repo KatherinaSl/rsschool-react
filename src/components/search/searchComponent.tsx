@@ -24,20 +24,29 @@ export default class SearchComponent extends Component<
     this.setState({ searchTerm: event.currentTarget.value });
   };
 
-  handleOnClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
+  handleOnClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): void => {
     event.preventDefault();
     this.fetchData();
-    localStorage.setItem('searchTerm', this.state.searchTerm);
   };
 
   fetchData = async (): Promise<ApiResponse> => {
+    const title = this.state.searchTerm.trim();
+    localStorage.setItem('searchTerm', title);
+
     try {
       const response = await fetch(
-        'https://stapi.co/api/v2/rest/astronomicalObject/search?pageNumber=0',
+        `https://stapi.co/api/v2/rest/astronomicalObject/search`,
         {
-          method: 'GET',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams({ name: title }),
         }
       );
+
       const apiResponse = (await response.json()) as ApiResponse;
       this.setState({ data: apiResponse.astronomicalObjects });
       return apiResponse;
@@ -53,6 +62,7 @@ export default class SearchComponent extends Component<
         <h1>Star Track Astronomical Objects Search:</h1>
         <div>
           <input
+            name=""
             type="text"
             placeholder="Search..."
             value={this.state.searchTerm}
@@ -63,8 +73,11 @@ export default class SearchComponent extends Component<
           </button>
           <div className="result-section">
             {data &&
-              data.length > 0 &&
-              data.map((obj, index) => <CardComponent key={index} {...obj} />)}
+              (data.length > 0 ? (
+                data.map((obj, index) => <CardComponent key={index} {...obj} />)
+              ) : (
+                <p>No actronomical object found for the given search term.</p>
+              ))}
           </div>
         </div>
       </div>
