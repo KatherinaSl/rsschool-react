@@ -7,6 +7,7 @@ import type {
   ApiResponse,
 } from '../../interfaces/interfaces';
 import SpinnerComponent from '../spinner/spinnerComponent';
+import FallbackComponent from '../errorBoundary/fallbackComponent';
 
 export default class SearchComponent extends Component<
   SearchProps,
@@ -51,6 +52,9 @@ export default class SearchComponent extends Component<
         }
       );
 
+      if (!response.ok)
+        throw new Error(`Server error. Status: ${response.status} error code`);
+
       const apiResponse = (await response.json()) as ApiResponse;
       this.setState({
         data: apiResponse.astronomicalObjects,
@@ -58,12 +62,15 @@ export default class SearchComponent extends Component<
       });
       return apiResponse;
     } catch (error) {
-      console.error(error);
+      if (error instanceof Error) {
+        console.error('Something went wrong.', error.message);
+        this.setState({ error: error });
+      }
     }
   };
 
   render(): ReactNode {
-    const { data, isLoading } = this.state;
+    const { data, isLoading, error } = this.state;
     return (
       <div className="search-component">
         <h1>Star Track Astronomical Objects Search:</h1>
@@ -80,6 +87,7 @@ export default class SearchComponent extends Component<
           </button>
           <div className="result-section">
             {data &&
+              !error &&
               (data.length > 0 ? (
                 data.map((obj, index) => <CardComponent key={index} {...obj} />)
               ) : (
@@ -87,7 +95,8 @@ export default class SearchComponent extends Component<
               ))}
           </div>
 
-          {isLoading && <SpinnerComponent />}
+          {isLoading && !error && <SpinnerComponent />}
+          {error && <FallbackComponent message={error.message} />}
         </div>
       </div>
     );
