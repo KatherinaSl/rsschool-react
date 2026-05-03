@@ -34,7 +34,7 @@ export default class SearchComponent extends Component<
     this.fetchData();
   };
 
-  fetchData = async (): Promise<ApiResponse> => {
+  fetchData = async (): Promise<ApiResponse | undefined> => {
     this.setState({ isLoading: true });
 
     const title = this.state.searchTerm.trim();

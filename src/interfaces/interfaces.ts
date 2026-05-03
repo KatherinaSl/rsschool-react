@@ -33,10 +33,9 @@ export interface ErroBoundaryState {
   hasError: boolean;
   error?: Error;
   errorMessage?: string;
-
 }
 
 export interface FallBackUIProps {
-  message: string;
+  message?: string;
   onReset?: () => void;
 }
