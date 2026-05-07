@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import CardComponent from '../components/card/cardComponent';
 
 const mockData = {
@@ -8,11 +8,8 @@ const mockData = {
   astronomicalObjectType: 'Earth',
 };
 
-test('demo', () => {
-  expect(true).toBe(true);
-});
 
-test('Renders the main page', () => {
+test('should render valid card on default page', () => {
   render(
     <CardComponent
       uid={mockData.uid}
@@ -20,5 +17,6 @@ test('Renders the main page', () => {
       astronomicalObjectType={mockData.astronomicalObjectType}
     />
   );
-  expect(true).toBeTruthy();
+
+  expect(screen.getByRole('heading', { name: 'testObj' })).toBeInTheDocument();
 });

@@ -41,16 +41,13 @@ export default class SearchComponent extends Component<
     localStorage.setItem('searchTerm', title);
 
     try {
-      const response = await fetch(
-        `https://stapi.co/api/v2/rest/astronomicalObject/search`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: new URLSearchParams({ name: title }),
-        }
-      );
+      const response = await fetch(this.props.searchUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({ name: title }),
+      });
 
       if (!response.ok)
         throw new Error(`Server error. Status: ${response.status} error code`);
