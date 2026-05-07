@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SearchComponent from '../components/search/searchComponent';
 import type { ReactNode } from 'react';
@@ -37,4 +37,20 @@ test('should render search component ', async () => {
   expect(await screen.findByText('testObj')).toBeInTheDocument();
   expect(screen.getByText('testObj2')).toBeInTheDocument();
   expect(searchInput).toBeInTheDocument();
+});
+
+test('should handle server error', async () => {
+  jest.spyOn(globalThis, 'fetch').mockResolvedValue({
+    ok: false,
+    json: async () => mockResponse,
+  } as Response);
+  const consoleSpy = jest.spyOn(console, 'error');
+
+  
+  await act(async () => {
+    render(<SearchComponent searchUrl="url" />);
+  });
+  expect(consoleSpy).toHaveBeenCalled();
+
+  consoleSpy.mockRestore();
 });
