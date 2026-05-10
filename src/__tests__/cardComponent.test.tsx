@@ -6,16 +6,15 @@ const mockData = {
   uid: '123',
   name: 'testObj',
   astronomicalObjectType: 'Earth',
+  location: {
+    name: 'testLocation',
+    uid: '1234',
+  },
 };
-
 
 test('should render valid card on default page', () => {
   render(
-    <CardComponent
-      uid={mockData.uid}
-      name={mockData.name}
-      astronomicalObjectType={mockData.astronomicalObjectType}
-    />
+    <CardComponent {...mockData}    />
   );
 
   expect(screen.getByRole('heading', { name: 'testObj' })).toBeInTheDocument();
