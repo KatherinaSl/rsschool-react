@@ -55,7 +55,6 @@ export default class SearchComponent extends Component<
       const apiResponse = (await response.json()) as ApiResponse;
       this.setState({
         data: apiResponse.astronomicalObjects,
-        isLoading: false,
       });
       return apiResponse;
     } catch (error) {
@@ -63,6 +62,8 @@ export default class SearchComponent extends Component<
         console.error('Something went wrong.', error.message);
         this.setState({ error: error });
       }
+    } finally {
+      this.setState({ isLoading: false });
     }
   };
 
@@ -73,7 +74,7 @@ export default class SearchComponent extends Component<
         <h1>Star Track Astronomical Objects Search:</h1>
         <div>
           <input
-            name=""
+            name="search"
             type="text"
             placeholder="Search..."
             value={this.state.searchTerm}

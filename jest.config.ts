@@ -13,7 +13,7 @@ export default {
     '^<rootDir>/src/index\\.(js|jsx|ts|tsx)$',
     '^<rootDir>/src/setupTests\\.(js|ts)$',
     '^<rootDir>/src/.*\\.d\\.ts$',
-    '^<rootDir>/src/test/*',
+    '^<rootDir>/src/test-utils/*',
   ],
   coverageThreshold: {
     global: {

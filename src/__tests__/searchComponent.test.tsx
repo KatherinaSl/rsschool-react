@@ -18,7 +18,7 @@ const mockResponse = {
   ],
 };
 
-test('should render search component ', async () => {
+test('should render search term data and save it in locale storage ', async () => {
   if (!globalThis.fetch) {
     globalThis.fetch = jest.fn();
   }
@@ -28,15 +28,22 @@ test('should render search component ', async () => {
     json: async () => mockResponse,
   } as Response);
 
+  const mockSearchTerm = jest.spyOn(Storage.prototype, 'setItem');
+  mockSearchTerm.mockImplementation(() => {});
+
   const { user } = setup(<SearchComponent searchUrl="searchApi" />);
   const searchButton = screen.getByRole('button', { name: 'Search' });
   const searchInput = screen.getByPlaceholderText('Search...');
 
+  await user.type(screen.getByRole('textbox'), 'Test');
   await user.click(searchButton);
 
+  expect(mockSearchTerm).toHaveBeenCalledWith('searchTerm', 'Test');
   expect(await screen.findByText('testObj')).toBeInTheDocument();
-  expect(screen.getByText('testObj2')).toBeInTheDocument();
+  expect(await screen.findByText('testObj2')).toBeInTheDocument();
   expect(searchInput).toBeInTheDocument();
+
+  mockSearchTerm.mockRestore();
 });
 
 test('should handle server error', async () => {
@@ -46,7 +53,6 @@ test('should handle server error', async () => {
   } as Response);
   const consoleSpy = jest.spyOn(console, 'error');
 
-  
   await act(async () => {
     render(<SearchComponent searchUrl="url" />);
   });
