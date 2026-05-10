@@ -41,16 +41,13 @@ export default class SearchComponent extends Component<
     localStorage.setItem('searchTerm', title);
 
     try {
-      const response = await fetch(
-        `https://stapi.co/api/v2/rest/astronomicalObject/search`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: new URLSearchParams({ name: title }),
-        }
-      );
+      const response = await fetch(this.props.searchUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({ name: title }),
+      });
 
       if (!response.ok)
         throw new Error(`Server error. Status: ${response.status} error code`);
@@ -58,7 +55,6 @@ export default class SearchComponent extends Component<
       const apiResponse = (await response.json()) as ApiResponse;
       this.setState({
         data: apiResponse.astronomicalObjects,
-        isLoading: false,
       });
       return apiResponse;
     } catch (error) {
@@ -66,6 +62,8 @@ export default class SearchComponent extends Component<
         console.error('Something went wrong.', error.message);
         this.setState({ error: error });
       }
+    } finally {
+      this.setState({ isLoading: false });
     }
   };
 
@@ -76,7 +74,7 @@ export default class SearchComponent extends Component<
         <h1>Star Track Astronomical Objects Search:</h1>
         <div>
           <input
-            name=""
+            name="search"
             type="text"
             placeholder="Search..."
             value={this.state.searchTerm}
