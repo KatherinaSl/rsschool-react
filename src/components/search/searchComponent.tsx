@@ -9,6 +9,7 @@ import type {
 import SpinnerComponent from '../spinner/spinnerComponent';
 import FallbackComponent from '../errorBoundary/fallbackComponent';
 import useLocalStorage from '../hooks/useLocalStorage';
+import { Link } from 'react-router';
 
 export default function SearchComponent(props: SearchProps): ReactNode {
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm');
@@ -79,7 +80,11 @@ export default function SearchComponent(props: SearchProps): ReactNode {
 
   return (
     <div className="search-component">
-      <h1>Star Track Astronomical Objects Search:</h1>
+      <div className='header'>
+        <h1>Star Track Astronomical Objects Search:</h1>
+        <Link to="/about">About</Link>
+      </div>
+
       <div>
         <input
           name="search"
