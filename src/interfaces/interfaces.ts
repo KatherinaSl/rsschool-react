@@ -14,13 +14,6 @@ export interface SearchProps {
   searchUrl: string;
 }
 
-export interface SearchState {
-  searchTerm: string;
-  isLoading: boolean;
-  data?: AstronomicalObject[];
-  error?: Error;
-}
-
 export interface ApiResponse {
   astronomicalObjects: AstronomicalObject[];
 }

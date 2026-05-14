@@ -1,26 +1,20 @@
-import { Component, type ReactNode } from 'react';
 import './cardComponent.css';
 import type { AstronomicalObject } from '../../interfaces/interfaces';
+import type { ReactNode } from 'react';
 
-export default class CardComponent extends Component<AstronomicalObject> {
-  constructor(props: AstronomicalObject) {
-    super(props);
-  }
-
-  render(): ReactNode {
-    const { name, astronomicalObjectType, location } = this.props;
-    return (
-      <div className="card">
-        <h4>{name}</h4>
+export default function CardComponent(props: AstronomicalObject): ReactNode {
+  return (
+    <div className="card">
+      <h4>{props.name}</h4>
+      <p>
+        <strong>Actronomical object type:</strong>{' '}
+        {props.astronomicalObjectType}
+      </p>
+      {props.location && (
         <p>
-          <strong>Actronomical object type:</strong> {astronomicalObjectType}
+          <strong>Location:</strong> {props.location.name}
         </p>
-        {location && (
-          <p>
-            <strong>Location:</strong> {location.name}
-          </p>
-        )}
-      </div>
-    );
-  }
+      )}
+    </div>
+  );
 }

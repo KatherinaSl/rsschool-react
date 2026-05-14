@@ -1,23 +1,17 @@
-import { Component, type ReactNode } from 'react';
 import './fallbackComponent.css';
 import type { FallBackUIProps } from '../../interfaces/interfaces';
+import type { ReactNode } from 'react';
 
-export default class FallbackComponent extends Component<FallBackUIProps> {
-  constructor(props: FallBackUIProps) {
-    super(props);
-  }
-
-  render(): ReactNode {
-    return (
-      <div role="alert" className="error">
-        <h3>Something went wrong...</h3>
-        <p>{this.props.message}</p>
-        {this.props.onReset && (
-          <button className="reset-button" onClick={this.props.onReset}>
-            Go back
-          </button>
-        )}
-      </div>
-    );
-  }
+export default function FallbackComponent(props: FallBackUIProps): ReactNode {
+  return (
+    <div role="alert" className="error">
+      <h3>Something went wrong...</h3>
+      <p>{props.message}</p>
+      {props.onReset && (
+        <button className="reset-button" onClick={props.onReset}>
+          Go back
+        </button>
+      )}
+    </div>
+  );
 }
