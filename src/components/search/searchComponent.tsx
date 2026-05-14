@@ -8,14 +8,11 @@ import type {
 } from '../../interfaces/interfaces';
 import SpinnerComponent from '../spinner/spinnerComponent';
 import FallbackComponent from '../errorBoundary/fallbackComponent';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 export default function SearchComponent(props: SearchProps): ReactNode {
-  const [searchTerm, setSearchTerm] = useState<string>(
-    localStorage.getItem('searchTerm') || ''
-  );
-  const [activeSearch, setActiveSearch] = useState<string>(
-    localStorage.getItem('searchTerm') || ''
-  );
+  const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm');
+  const [activeSearch, setActiveSearch] = useLocalStorage('searchTerm');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [data, setData] = useState<AstronomicalObject[]>([]);
   const [error, setError] = useState<Error>();
