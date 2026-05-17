@@ -10,6 +10,25 @@ export interface AstronomicalObject {
   };
 }
 
+export interface FullAstronomicalObjectResponse {
+  astronomicalObject: FullAstronomicalObjectInfo
+}
+
+export interface FullAstronomicalObjectInfo {
+  uid: string;
+  name: string;
+  astronomicalObjectType: string;
+  location?: CardDetails;
+}
+
+interface CardDetails {
+  astronomicalObjectType: string;
+  location: {
+    uid: string;
+    name: string;
+  };
+}
+
 export interface SearchProps {
   searchUrl: string;
 }
@@ -23,7 +42,6 @@ export interface Page {
   firstPage: boolean;
   lastPage: boolean;
 }
-
 
 export interface ApiResponse {
   page: Page;

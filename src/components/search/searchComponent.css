@@ -36,6 +36,14 @@ h1 {
   gap: 30px;
   justify-content: space-between;
   flex-wrap: wrap;
+  flex: 1;
+}
+
+.content-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  width: 100%;
 }
 
 button {

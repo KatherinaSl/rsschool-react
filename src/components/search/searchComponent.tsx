@@ -5,7 +5,7 @@ import type { SearchProps, ApiResponse } from '../../interfaces/interfaces';
 import SpinnerComponent from '../spinner/spinnerComponent';
 import FallbackComponent from '../errorBoundary/fallbackComponent';
 import useLocalStorage from '../hooks/useLocalStorage';
-import { Link, useSearchParams } from 'react-router';
+import { Link, Outlet, useSearchParams } from 'react-router';
 import PaginationComponent from '../pagination/paginationComponent';
 import { useNavigate } from 'react-router';
 
@@ -86,44 +86,49 @@ export default function SearchComponent(props: SearchProps): ReactNode {
   };
 
   return (
-    <div className="search-component">
-      <div className="header">
-        <h1>Star Track Astronomical Objects Search:</h1>
-        <Link to="/about">About</Link>
-      </div>
+    <>
+      <div className="search-component">
+        <div className="header">
+          <h1>Star Track Astronomical Objects Search:</h1>
+          <Link to="/about">About</Link>
+        </div>
 
-      <div>
-        <input
-          name="search"
-          type="text"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={handleOnChange}
-        />
-        <button type="submit" onClick={handleOnClick}>
-          Search
-        </button>
-      </div>
+        <div>
+          <input
+            name="search"
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={handleOnChange}
+          />
+          <button type="submit" onClick={handleOnClick}>
+            Search
+          </button>
+        </div>
 
-      {response && !isLoading && !error && (
-        <>
-          <div className="result-section">
-            {response.astronomicalObjects.length > 0 ? (
-              response.astronomicalObjects.map((obj, index) => {
-                return <CardComponent key={index} {...obj} />;
-              })
-            ) : (
-              <p>No astronomical object found for the given search term.</p>
+        {response && !isLoading && !error && (
+          <>
+            <div className="content-layout">
+              <div className="result-section">
+                {response.astronomicalObjects.length > 0 ? (
+                  response.astronomicalObjects.map((obj, index) => {
+                    return <CardComponent key={index} {...obj} />;
+                  })
+                ) : (
+                  <p>No astronomical object found for the given search term.</p>
+                )}
+              </div>
+              <Outlet />
+            </div>
+
+            {response.page.numberOfElements > 0 && (
+              <PaginationComponent {...response.page} />
             )}
-          </div>
-
-          {response.page.numberOfElements > 0 && (
-            <PaginationComponent {...response.page} />
-          )}
-        </>
-      )}
-      {isLoading && !error && <SpinnerComponent />}
-      {error && <FallbackComponent message={error.message} />}
-    </div>
+          </>
+        )}
+        {isLoading && !error && <SpinnerComponent />}
+        {error && <FallbackComponent message={error.message} />}
+      </div>
+    </>
   );
 }
