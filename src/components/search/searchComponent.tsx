@@ -1,33 +1,41 @@
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import './searchComponent.css';
 import CardComponent from '../card/cardComponent';
-import type {
-  SearchProps,
-  ApiResponse,
-  AstronomicalObject,
-} from '../../interfaces/interfaces';
+import type { SearchProps, ApiResponse } from '../../interfaces/interfaces';
 import SpinnerComponent from '../spinner/spinnerComponent';
 import FallbackComponent from '../errorBoundary/fallbackComponent';
 import useLocalStorage from '../hooks/useLocalStorage';
-import { Link } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
+import PaginationComponent from '../pagination/paginationComponent';
+import { useNavigate } from 'react-router';
 
 export default function SearchComponent(props: SearchProps): ReactNode {
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm');
   const [activeSearch, setActiveSearch] = useLocalStorage('searchTerm');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [data, setData] = useState<AstronomicalObject[]>([]);
+  const [response, setResponse] = useState<ApiResponse>();
   const [error, setError] = useState<Error>();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const PAGE_SIZE = 6;
 
   const fetchData = useCallback(
     async (title: string): Promise<ApiResponse | undefined> => {
+      const pageNumber = searchParams.get('pageNumber')
+        ? Number(searchParams.get('pageNumber')) - 1
+        : 0;
+
       try {
-        const response = await fetch(props.searchUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: new URLSearchParams({ name: title }),
-        });
+        const response = await fetch(
+          `${props.searchUrl}?pageNumber=${pageNumber}&pageSize=${PAGE_SIZE}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({ name: title }),
+          }
+        );
 
         if (!response.ok)
           throw new Error(
@@ -35,7 +43,7 @@ export default function SearchComponent(props: SearchProps): ReactNode {
           );
 
         const apiResponse = (await response.json()) as ApiResponse;
-        setData(apiResponse.astronomicalObjects);
+        setResponse(apiResponse);
         return apiResponse;
       } catch (error) {
         if (error instanceof Error) {
@@ -44,7 +52,7 @@ export default function SearchComponent(props: SearchProps): ReactNode {
         }
       }
     },
-    [props.searchUrl]
+    [props.searchUrl, searchParams]
   );
 
   useEffect(() => {
@@ -72,15 +80,14 @@ export default function SearchComponent(props: SearchProps): ReactNode {
 
     setActiveSearch(title);
 
-    localStorage.setItem('searchTerm', title);
-
     setIsLoading(true);
     setError(undefined);
+    navigate('/');
   };
 
   return (
     <div className="search-component">
-      <div className='header'>
+      <div className="header">
         <h1>Star Track Astronomical Objects Search:</h1>
         <Link to="/about">About</Link>
       </div>
@@ -96,19 +103,27 @@ export default function SearchComponent(props: SearchProps): ReactNode {
         <button type="submit" onClick={handleOnClick}>
           Search
         </button>
-        <div className="result-section">
-          {data &&
-            !error &&
-            (data.length > 0 ? (
-              data.map((obj, index) => <CardComponent key={index} {...obj} />)
+      </div>
+
+      {response && !isLoading && !error && (
+        <>
+          <div className="result-section">
+            {response.astronomicalObjects.length > 0 ? (
+              response.astronomicalObjects.map((obj, index) => {
+                return <CardComponent key={index} {...obj} />;
+              })
             ) : (
               <p>No astronomical object found for the given search term.</p>
-            ))}
-        </div>
+            )}
+          </div>
 
-        {isLoading && !error && <SpinnerComponent />}
-        {error && <FallbackComponent message={error.message} />}
-      </div>
+          {response.page.numberOfElements > 0 && (
+            <PaginationComponent {...response.page} />
+          )}
+        </>
+      )}
+      {isLoading && !error && <SpinnerComponent />}
+      {error && <FallbackComponent message={error.message} />}
     </div>
   );
 }

@@ -14,7 +14,19 @@ export interface SearchProps {
   searchUrl: string;
 }
 
+export interface Page {
+  pageNumber: number;
+  pageSize: number;
+  numberOfElements: number;
+  totalElements: number;
+  totalPages: number;
+  firstPage: boolean;
+  lastPage: boolean;
+}
+
+
 export interface ApiResponse {
+  page: Page;
   astronomicalObjects: AstronomicalObject[];
 }
 
