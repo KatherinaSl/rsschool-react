@@ -10,18 +10,41 @@ export interface AstronomicalObject {
   };
 }
 
+export interface FullAstronomicalObjectResponse {
+  astronomicalObject: FullAstronomicalObjectInfo
+}
+
+export interface FullAstronomicalObjectInfo {
+  uid: string;
+  name: string;
+  astronomicalObjectType: string;
+  location?: CardDetails;
+}
+
+interface CardDetails {
+  astronomicalObjectType: string;
+  location: {
+    uid: string;
+    name: string;
+  };
+}
+
 export interface SearchProps {
   searchUrl: string;
 }
 
-export interface SearchState {
-  searchTerm: string;
-  isLoading: boolean;
-  data?: AstronomicalObject[];
-  error?: Error;
+export interface Page {
+  pageNumber: number;
+  pageSize: number;
+  numberOfElements: number;
+  totalElements: number;
+  totalPages: number;
+  firstPage: boolean;
+  lastPage: boolean;
 }
 
 export interface ApiResponse {
+  page: Page;
   astronomicalObjects: AstronomicalObject[];
 }
 

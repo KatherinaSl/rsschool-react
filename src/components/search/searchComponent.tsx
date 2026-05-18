@@ -1,102 +1,134 @@
-import { Component, type ReactNode } from 'react';
+import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import './searchComponent.css';
 import CardComponent from '../card/cardComponent';
-import type {
-  SearchProps,
-  SearchState,
-  ApiResponse,
-} from '../../interfaces/interfaces';
+import type { SearchProps, ApiResponse } from '../../interfaces/interfaces';
 import SpinnerComponent from '../spinner/spinnerComponent';
 import FallbackComponent from '../errorBoundary/fallbackComponent';
+import useLocalStorage from '../hooks/useLocalStorage';
+import { Link, Outlet, useSearchParams } from 'react-router';
+import PaginationComponent from '../pagination/paginationComponent';
+import { useNavigate } from 'react-router';
 
-export default class SearchComponent extends Component<
-  SearchProps,
-  SearchState
-> {
-  constructor(props: SearchProps) {
-    super(props);
-    this.state = {
-      searchTerm: localStorage.getItem('searchTerm') || '',
-      isLoading: false,
-    };
-  }
+export default function SearchComponent(props: SearchProps): ReactNode {
+  const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm');
+  const [activeSearch, setActiveSearch] = useLocalStorage('searchTerm');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [response, setResponse] = useState<ApiResponse>();
+  const [error, setError] = useState<Error>();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const PAGE_SIZE = 6;
 
-  componentDidMount() {
-    this.fetchData();
-  }
+  const fetchData = useCallback(
+    async (title: string): Promise<ApiResponse | undefined> => {
+      const pageNumber = searchParams.get('pageNumber')
+        ? Number(searchParams.get('pageNumber')) - 1
+        : 0;
 
-  handleOnChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ searchTerm: event.currentTarget.value });
-  };
+      try {
+        const response = await fetch(
+          `${props.searchUrl}?pageNumber=${pageNumber}&pageSize=${PAGE_SIZE}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({ name: title }),
+          }
+        );
 
-  handleOnClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
-    event.preventDefault();
-    this.fetchData();
-  };
+        if (!response.ok)
+          throw new Error(
+            `Server error. Status: ${response.status} error code`
+          );
 
-  fetchData = async (): Promise<ApiResponse | undefined> => {
-    this.setState({ isLoading: true });
-
-    const title = this.state.searchTerm.trim();
-    localStorage.setItem('searchTerm', title);
-
-    try {
-      const response = await fetch(this.props.searchUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({ name: title }),
-      });
-
-      if (!response.ok)
-        throw new Error(`Server error. Status: ${response.status} error code`);
-
-      const apiResponse = (await response.json()) as ApiResponse;
-      this.setState({
-        data: apiResponse.astronomicalObjects,
-      });
-      return apiResponse;
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error('Something went wrong.', error.message);
-        this.setState({ error: error });
+        const apiResponse = (await response.json()) as ApiResponse;
+        setResponse(apiResponse);
+        return apiResponse;
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error('Something went wrong.', error.message);
+          setError(error);
+        }
       }
-    } finally {
-      this.setState({ isLoading: false });
-    }
+    },
+    [props.searchUrl, searchParams]
+  );
+
+  useEffect(() => {
+    const loadData = async (): Promise<void> => {
+      setIsLoading(true);
+      setError(undefined);
+
+      try {
+        await fetchData(activeSearch);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    void loadData();
+  }, [activeSearch, fetchData]);
+
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setSearchTerm(event.currentTarget.value);
   };
 
-  render(): ReactNode {
-    const { data, isLoading, error } = this.state;
-    return (
+  const handleOnClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    event.preventDefault();
+    const title = searchTerm.trim();
+
+    setActiveSearch(title);
+
+    setIsLoading(true);
+    setError(undefined);
+    navigate('/');
+  };
+
+  return (
+    <>
       <div className="search-component">
-        <h1>Star Track Astronomical Objects Search:</h1>
+        <div className="header">
+          <h1>Star Track Astronomical Objects Search:</h1>
+          <Link to="/about">About</Link>
+        </div>
+
         <div>
           <input
             name="search"
             type="text"
             placeholder="Search..."
-            value={this.state.searchTerm}
-            onChange={this.handleOnChange.bind(this)}
+            value={searchTerm}
+            onChange={handleOnChange}
           />
-          <button type="submit" onClick={this.handleOnClick.bind(this)}>
+          <button type="submit" onClick={handleOnClick}>
             Search
           </button>
-          <div className="result-section">
-            {data &&
-              !error &&
-              (data.length > 0 ? (
-                data.map((obj, index) => <CardComponent key={index} {...obj} />)
-              ) : (
-                <p>No actronomical object found for the given search term.</p>
-              ))}
-          </div>
-
-          {isLoading && !error && <SpinnerComponent />}
-          {error && <FallbackComponent message={error.message} />}
         </div>
+
+        {response && !isLoading && !error && (
+          <>
+            <div className="content-layout">
+              <div className="result-section">
+                {response.astronomicalObjects.length > 0 ? (
+                  response.astronomicalObjects.map((obj, index) => {
+                    return <CardComponent key={index} {...obj} />;
+                  })
+                ) : (
+                  <p>No astronomical object found for the given search term.</p>
+                )}
+              </div>
+              <Outlet />
+            </div>
+
+            {response.page.numberOfElements > 0 && (
+              <PaginationComponent {...response.page} />
+            )}
+          </>
+        )}
+        {isLoading && !error && <SpinnerComponent />}
+        {error && <FallbackComponent message={error.message} />}
       </div>
-    );
-  }
+    </>
+  );
 }
