@@ -9,21 +9,19 @@ export default function CardComponent(props: AstronomicalObject): ReactNode {
     ? searchParams.get('pageNumber')
     : 0;
   return (
-    <>
-      <Link to={`/cardDetails/${props.uid}?pageNumber=${pageNumber}`}>
-        <div className="card">
-          <h4>{props.name}</h4>
+    <Link to={`/cardDetails/${props.uid}?pageNumber=${pageNumber}`}>
+      <div className="card">
+        <h4>{props.name}</h4>
+        <p>
+          <strong>Actronomical object type:</strong>{' '}
+          {props.astronomicalObjectType}
+        </p>
+        {props.location && (
           <p>
-            <strong>Actronomical object type:</strong>{' '}
-            {props.astronomicalObjectType}
+            <strong>Location:</strong> {props.location.name}
           </p>
-          {props.location && (
-            <p>
-              <strong>Location:</strong> {props.location.name}
-            </p>
-          )}
-        </div>
-      </Link>
-    </>
+        )}
+      </div>
+    </Link>
   );
 }
