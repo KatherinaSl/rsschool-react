@@ -3,11 +3,14 @@ import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SearchComponent from '../components/search/searchComponent';
 import type { ReactNode } from 'react';
+import { MemoryRouter } from 'react-router';
 
 function setup(jsx: ReactNode) {
   return {
     user: userEvent.setup(),
-    ...render(jsx),
+    ...render(
+      <MemoryRouter initialEntries={['/cardDetails/123']}>{jsx}</MemoryRouter>
+    ),
   };
 }
 
@@ -16,7 +19,20 @@ const mockResponse = {
     { uid: '123', name: 'testObj', astronomicalObjectType: 'Earth' },
     { uid: '456', name: 'testObj2', astronomicalObjectType: 'Nebula' },
   ],
+  page: {
+    numberOfElements: 2,
+    totalElements: 2,
+    totalPages: 1,
+    pageNumber: 0,
+    pageSize: 6,
+    firstPage: true,
+    lastPage: true,
+  },
 };
+
+beforeEach(() => {
+  localStorage.clear();
+});
 
 test('should render search term data and save it in locale storage ', async () => {
   if (!globalThis.fetch) {
@@ -42,8 +58,6 @@ test('should render search term data and save it in locale storage ', async () =
   expect(await screen.findByText('testObj')).toBeInTheDocument();
   expect(await screen.findByText('testObj2')).toBeInTheDocument();
   expect(searchInput).toBeInTheDocument();
-
-  mockSearchTerm.mockRestore();
 });
 
 test('should handle server error', async () => {
@@ -51,12 +65,16 @@ test('should handle server error', async () => {
     ok: false,
     json: async () => mockResponse,
   } as Response);
-  const consoleSpy = jest.spyOn(console, 'error');
+  const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
   await act(async () => {
-    render(<SearchComponent searchUrl="url" />);
+    render(
+      <MemoryRouter initialEntries={['/cardDetails/123']}>
+        <SearchComponent searchUrl="url" />
+      </MemoryRouter>
+    );
   });
-  expect(consoleSpy).toHaveBeenCalled();
 
+  expect(await screen.findByText(/server error/i)).toBeInTheDocument();
   consoleSpy.mockRestore();
 });

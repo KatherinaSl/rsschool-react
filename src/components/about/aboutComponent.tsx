@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 export default function AboutComponent() {
   return (
-    <div className="about">
+    <div  data-testid="about" className="about">
       <h3>
         Hi! My name is Kate and I&apos;m an author of this app. This is my&nbsp;
         <Link to="https://github.com/KatherinaSl">GithHub Profile</Link>.
