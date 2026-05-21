@@ -5,6 +5,7 @@ import { BrowserRouter, Outlet, Route, Routes } from 'react-router';
 import ErrorNotFound from './components/errorBoundary/errorNotFound';
 import AboutComponent from './components/about/aboutComponent';
 import CardDetails from './components/CardDetails/cardDetailsComponent';
+import { ThemeProvider } from './context/themeProvider';
 
 const URL = 'https://stapi.co/api/v2/rest/astronomicalObject/search';
 
@@ -12,19 +13,21 @@ const App = () => {
   return (
     <ErrorBoundary>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Outlet />}>
-            <Route index element={<SearchComponent searchUrl={URL} />} />
-            <Route
-              path="/cardDetails/:cardId"
-              element={<SearchComponent searchUrl={URL} />}
-            >
-              <Route index element={<CardDetails />} />
+        <ThemeProvider>
+          <Routes>
+            <Route path="/" element={<Outlet />}>
+              <Route index element={<SearchComponent searchUrl={URL} />} />
+              <Route
+                path="/cardDetails/:cardId"
+                element={<SearchComponent searchUrl={URL} />}
+              >
+                <Route index element={<CardDetails />} />
+              </Route>
             </Route>
-          </Route>
-          <Route path="/about" element={<AboutComponent />} />
-          <Route path="*" element={<ErrorNotFound />} />
-        </Routes>
+            <Route path="/about" element={<AboutComponent />} />
+            <Route path="*" element={<ErrorNotFound />} />
+          </Routes>
+        </ThemeProvider>
       </BrowserRouter>
     </ErrorBoundary>
   );

@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useState, type ReactNode } from 'react';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from 'react';
 import './searchComponent.css';
 import CardComponent from '../card/cardComponent';
 import type { SearchProps, ApiResponse } from '../../interfaces/interfaces';
@@ -8,6 +14,7 @@ import useLocalStorage from '../hooks/useLocalStorage';
 import { Link, Outlet, useSearchParams } from 'react-router';
 import PaginationComponent from '../pagination/paginationComponent';
 import { useNavigate } from 'react-router';
+import { ThemeContext } from '../../context/theme';
 
 export default function SearchComponent(props: SearchProps): ReactNode {
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm');
@@ -18,6 +25,7 @@ export default function SearchComponent(props: SearchProps): ReactNode {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const PAGE_SIZE = 6;
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   const fetchData = useCallback(
     async (title: string): Promise<ApiResponse | undefined> => {
@@ -86,49 +94,50 @@ export default function SearchComponent(props: SearchProps): ReactNode {
   };
 
   return (
-    <>
-      <div className="search-component">
-        <div className="header">
-          <h1>Star Track Astronomical Objects Search:</h1>
-          <Link to="/about">About</Link>
-        </div>
-
-        <div>
-          <input
-            name="search"
-            type="text"
-            placeholder="Search..."
-            value={searchTerm}
-            onChange={handleOnChange}
-          />
-          <button type="submit" onClick={handleOnClick}>
-            Search
-          </button>
-        </div>
-
-        {response && !isLoading && !error && (
-          <>
-            <div className="content-layout">
-              <div className="result-section">
-                {response.astronomicalObjects.length > 0 ? (
-                  response.astronomicalObjects.map((obj, index) => {
-                    return <CardComponent key={index} {...obj} />;
-                  })
-                ) : (
-                  <p>No astronomical object found for the given search term.</p>
-                )}
-              </div>
-              <Outlet />
-            </div>
-
-            {response.page.numberOfElements > 0 && (
-              <PaginationComponent {...response.page} />
-            )}
-          </>
-        )}
-        {isLoading && !error && <SpinnerComponent />}
-        {error && <FallbackComponent message={error.message} />}
+    <div className={`search-component ${theme}`}>
+      <div className="header">
+        <h1>Star Track Astronomical Objects Search:</h1>
+        <Link to="/about">About</Link>
+        <button onClick={toggleTheme}>
+          {theme ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+        </button>
       </div>
-    </>
+
+      <div>
+        <input
+          name="search"
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={handleOnChange}
+        />
+        <button type="submit" onClick={handleOnClick}>
+          Search
+        </button>
+      </div>
+
+      {response && !isLoading && !error && (
+        <>
+          <div className="content-layout">
+            <div className="result-section">
+              {response.astronomicalObjects.length > 0 ? (
+                response.astronomicalObjects.map((obj, index) => {
+                  return <CardComponent key={index} {...obj} />;
+                })
+              ) : (
+                <p>No astronomical object found for the given search term.</p>
+              )}
+            </div>
+            <Outlet />
+          </div>
+
+          {response.page.numberOfElements > 0 && (
+            <PaginationComponent {...response.page} />
+          )}
+        </>
+      )}
+      {isLoading && !error && <SpinnerComponent />}
+      {error && <FallbackComponent message={error.message} />}
+    </div>
   );
 }
