@@ -18,7 +18,7 @@ export default function CardComponent(props: AstronomicalObject): ReactNode {
 
   const handleOnChange = () => {
     if (isCardSelected) {
-      dispatch(remove(props));
+      dispatch(remove(props.uid));
     } else {
       dispatch(save(props));
     }

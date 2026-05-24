@@ -15,6 +15,9 @@ import { Link, Outlet, useSearchParams } from 'react-router';
 import PaginationComponent from '../pagination/paginationComponent';
 import { useNavigate } from 'react-router';
 import { ThemeContext } from '../../context/theme';
+import FlyoutComponent from '../flyout/flyoutComponent';
+import { useDispatch, useSelector } from 'react-redux';
+import { cardsSelector, removeAll } from '../../store/slice';
 
 export default function SearchComponent(props: SearchProps): ReactNode {
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm');
@@ -26,6 +29,8 @@ export default function SearchComponent(props: SearchProps): ReactNode {
   const navigate = useNavigate();
   const PAGE_SIZE = 6;
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const dispatch = useDispatch();
+  const cardsSelected = useSelector(cardsSelector);
 
   const fetchData = useCallback(
     async (title: string): Promise<ApiResponse | undefined> => {
@@ -130,6 +135,13 @@ export default function SearchComponent(props: SearchProps): ReactNode {
             </div>
             <Outlet />
           </div>
+
+          {cardsSelected > 0 && (
+            <FlyoutComponent
+              amount={cardsSelected}
+              handleOnClick={() => dispatch(removeAll())}
+            />
+          )}
 
           {response.page.numberOfElements > 0 && (
             <PaginationComponent {...response.page} />

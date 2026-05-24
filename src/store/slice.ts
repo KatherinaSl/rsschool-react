@@ -9,14 +9,20 @@ export const cardsSlice = createSlice({
     save: (state, action: PayloadAction<AstronomicalObject>) => {
       state.push(action.payload);
     },
-    remove: (state, action: PayloadAction<AstronomicalObject>) => {
-      const index = state.indexOf(action.payload);
-      state.splice(index, 1);
+    remove: (state, action: PayloadAction<string>) => {
+      const found = state.find((item) => item.uid === action.payload);
+      if (found) {
+        const index = state.indexOf(found);
+        state.splice(index, 1);
+      }
+    },
+    removeAll: (state) => {
+      state.length = 0;
     },
   },
 });
 
-export const { save, remove } = cardsSlice.actions;
+export const { save, remove, removeAll } = cardsSlice.actions;
 export const cardsSelector = (state: RootState) => state.cardSelected.length;
 
 export const isSelected = (state: RootState, cardId: string) =>
