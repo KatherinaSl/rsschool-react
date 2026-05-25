@@ -11,7 +11,7 @@ export default function CheckboxComponent({
     <div className="checkbox">
       <label>
         <input type="checkbox" checked={checked} onChange={handleOnChange} />
-        Selected
+        Select
       </label>
     </div>
   );

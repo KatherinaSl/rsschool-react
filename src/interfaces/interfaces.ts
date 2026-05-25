@@ -11,7 +11,7 @@ export interface AstronomicalObject {
 }
 
 export interface FullAstronomicalObjectResponse {
-  astronomicalObject: FullAstronomicalObjectInfo
+  astronomicalObject: FullAstronomicalObjectInfo;
 }
 
 export interface FullAstronomicalObjectInfo {
