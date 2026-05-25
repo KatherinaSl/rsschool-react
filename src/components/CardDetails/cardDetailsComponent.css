@@ -1,7 +1,6 @@
 .sidebar-wrapper {
   margin: 20px;
   z-index: 1;
-  max-width: 40%;
   flex-basis: 30%;
 
   overflow-y: auto;

@@ -19,12 +19,3 @@ body {
   height: 100%;
 }
 
-.main {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-  gap: 20px;
-}
