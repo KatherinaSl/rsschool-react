@@ -20,10 +20,10 @@ const exportToCsv = (filename: string, rows: AstronomicalObject[]): void => {
   const csvContent = columHearders.join(separator) + '\n' + csvRows;
 
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
 
   const link = document.createElement('a');
   if (link.download !== undefined) {
-    const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
     link.setAttribute('download', filename);
     link.style.visibility = 'hidden';
@@ -31,6 +31,8 @@ const exportToCsv = (filename: string, rows: AstronomicalObject[]): void => {
     link.click();
     document.body.removeChild(link);
   }
+
+  URL.revokeObjectURL(url);
 };
 
 export default exportToCsv;
