@@ -1,15 +1,19 @@
 import '@testing-library/jest-dom';
-import { act, render, screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SearchComponent from '../components/search/searchComponent';
 import type { ReactNode } from 'react';
 import { MemoryRouter } from 'react-router';
+import renderWithProviders from '../test-utils/test-utils';
+import { ThemeProvider } from '../context/themeProvider';
 
 function setup(jsx: ReactNode) {
   return {
     user: userEvent.setup(),
-    ...render(
-      <MemoryRouter initialEntries={['/cardDetails/123']}>{jsx}</MemoryRouter>
+    ...renderWithProviders(
+      <ThemeProvider>
+        <MemoryRouter initialEntries={['/cardDetails/123']}>{jsx}</MemoryRouter>
+      </ThemeProvider>
     ),
   };
 }
@@ -68,10 +72,12 @@ test('should handle server error', async () => {
   const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
   await act(async () => {
-    render(
-      <MemoryRouter initialEntries={['/cardDetails/123']}>
-        <SearchComponent searchUrl="url" />
-      </MemoryRouter>
+    renderWithProviders(
+      <ThemeProvider>
+        <MemoryRouter initialEntries={['/cardDetails/123']}>
+          <SearchComponent searchUrl="url" />
+        </MemoryRouter>
+      </ThemeProvider>
     );
   });
 

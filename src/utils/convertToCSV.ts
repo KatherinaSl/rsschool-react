@@ -1,7 +1,7 @@
 import type { AstronomicalObject } from '../interfaces/interfaces';
 
 const exportToCsv = (filename: string, rows: AstronomicalObject[]): void => {
-  if (!rows || !rows.length) {
+  if (!rows || rows.length === 0) {
     return;
   }
   const separator: string = ',';
@@ -9,15 +9,20 @@ const exportToCsv = (filename: string, rows: AstronomicalObject[]): void => {
   const columHearders: string[] = Object.keys(rows[0]);
   const csvRows = rows
     .map((row) => {
-      const location = row.location?.name ?? '';
       const url = `${window.location.origin}/cardDetails/${row.uid}`;
-      return (
-        row.uid + separator + row.name + separator + location + separator + url
-      );
+      const values = [
+        row.uid,
+        row.name,
+        row.astronomicalObjectType,
+        row.location?.name ?? '',
+        url,
+      ];
+      return values.join(separator);
     })
     .join('\n');
 
-  const csvContent = columHearders.join(separator) + '\n' + csvRows;
+  const csvContent =
+    columHearders.join(separator) + separator + 'url' + '\n' + csvRows;
 
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);

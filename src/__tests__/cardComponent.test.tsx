@@ -1,9 +1,10 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import CardComponent from '../components/card/cardComponent';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import userEvent from '@testing-library/user-event';
 import CardDetails from '../components/CardDetails/cardDetailsComponent';
+import renderWithProviders from '../test-utils/test-utils';
 
 const mockData = {
   uid: '123',
@@ -39,7 +40,7 @@ afterEach(() => {
 function setup() {
   return {
     user: userEvent.setup(),
-    ...render(
+    ...renderWithProviders(
       <MemoryRouter initialEntries={['/']}>
         <Routes>
           <Route path="/" element={<CardComponent {...mockData} />} />
@@ -52,7 +53,7 @@ function setup() {
 }
 
 test('should render valid card on default page', () => {
-  render(
+  renderWithProviders(
     <MemoryRouter initialEntries={['/']}>
       <CardComponent {...mockData} />
     </MemoryRouter>
