@@ -135,7 +135,9 @@ export default function SearchComponent(props: SearchProps): ReactNode {
             <Outlet />
           </div>
 
-          {response.astronomicalObjects.length > 0 && numberOfCards > 0 && <FlyoutComponent amount={numberOfCards} />}
+          {response.astronomicalObjects.length > 0 && numberOfCards > 0 && (
+            <FlyoutComponent amount={numberOfCards} />
+          )}
 
           {response.page.numberOfElements > 0 && (
             <PaginationComponent {...response.page} />
