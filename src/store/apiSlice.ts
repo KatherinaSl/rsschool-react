@@ -1,5 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { FullAstronomicalObjectInfo } from '../interfaces/interfaces';
+import type {
+  FullAstronomicalObjectInfo,
+  FullAstronomicalObjectResponse,
+} from '../interfaces/interfaces';
 
 export const astronomicalObjApi = createApi({
   reducerPath: 'astronomicalObjApi',
@@ -9,10 +12,12 @@ export const astronomicalObjApi = createApi({
   endpoints: (builder) => ({
     getAstronomicalObj: builder.query<FullAstronomicalObjectInfo, string>({
       query: (cardId) => `?uid=${cardId}`,
+      transformResponse: (response: FullAstronomicalObjectResponse) =>
+        response.astronomicalObject,
     }),
   }),
 
-  keepUnusedDataFor: Number(import.meta.env.KEEP_UNUSED_DATA_FOR),
+  keepUnusedDataFor: Number(import.meta.env.VITE_KEEP_UNUSED_DATA_FOR),
 });
 
 export const { useGetAstronomicalObjQuery } = astronomicalObjApi;

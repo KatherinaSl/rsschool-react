@@ -8,21 +8,21 @@ export default function CardDetailsInfo({
   return (
     <div className="card-information">
       <p>
-        <strong>Name:</strong> {details?.name}
+        <strong>Name:</strong> {details.name}
       </p>
       <p>
         <strong>Astronomical Object Type:</strong>{' '}
-        {details?.astronomicalObjectType}
+        {details.astronomicalObjectType}
       </p>
-      {details?.location ? (
+      {details.location ? (
         <>
           <h3>Inforamtion about location</h3>
           <p>
             <strong>Astronomical Object Type of Location:</strong>{' '}
-            {details?.location.astronomicalObjectType}
+            {details.location.astronomicalObjectType}
           </p>
           <p>
-            <strong>Location name:</strong> {details?.location.location.name}
+            <strong>Location name:</strong> {details.location.location.name}
           </p>
         </>
       ) : (
