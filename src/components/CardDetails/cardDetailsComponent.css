@@ -49,18 +49,6 @@
   margin: 0;
 }
 
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: -1;
-}
-
 .error {
   background-color: #f8d7da;
   border: 1px solid #f5c6cb;
