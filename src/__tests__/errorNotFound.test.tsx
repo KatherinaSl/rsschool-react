@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ErrorNotFound from '../components/errorBoundary/errorNotFound';
+import ErrorNotFound from '../components/error/errorNotFound';
 import { MemoryRouter } from 'react-router';
 
 it('should render the ErrorNotFound component', () => {

@@ -1,8 +1,8 @@
 import './App.css';
 import SearchComponent from './components/search/searchComponent';
-import ErrorBoundary from './components/errorBoundary/errorBoundary';
+import ErrorBoundary from './components/error/errorBoundary';
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router';
-import ErrorNotFound from './components/errorBoundary/errorNotFound';
+import ErrorNotFound from './components/error/errorNotFound';
 import AboutComponent from './components/about/aboutComponent';
 import CardDetails from './components/CardDetails/cardDetailsComponent';
 import { ThemeProvider } from './context/themeProvider';
