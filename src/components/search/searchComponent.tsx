@@ -1,15 +1,7 @@
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from 'react';
+import { useContext, type ReactNode } from 'react';
 import './searchComponent.css';
 import CardComponent from '../card/cardComponent';
-import type { SearchProps, ApiResponse } from '../../interfaces/interfaces';
 import SpinnerComponent from '../spinner/spinnerComponent';
-import FallbackComponent from '../errorBoundary/fallbackComponent';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { Link, Outlet, useSearchParams } from 'react-router';
 import PaginationComponent from '../pagination/paginationComponent';
@@ -18,69 +10,21 @@ import { ThemeContext } from '../../context/theme';
 import FlyoutComponent from '../flyout/flyoutComponent';
 import { useSelector } from 'react-redux';
 import { amountOfCards } from '../../store/slice';
+import { useSearchAstronomicalObjMutation } from '../../store/apiSlice';
+import ErrorMessage from '../error/errorMessage';
 
-export default function SearchComponent(props: SearchProps): ReactNode {
+export default function SearchComponent(): ReactNode {
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm');
-  const [activeSearch, setActiveSearch] = useLocalStorage('searchTerm');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [response, setResponse] = useState<ApiResponse>();
-  const [error, setError] = useState<Error>();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const PAGE_SIZE = 6;
+
   const { theme, toggleTheme } = useContext(ThemeContext);
   const numberOfCards = useSelector(amountOfCards);
-
-  const fetchData = useCallback(
-    async (title: string): Promise<ApiResponse | undefined> => {
-      const pageNumber = searchParams.get('pageNumber')
-        ? Number(searchParams.get('pageNumber')) - 1
-        : 0;
-
-      try {
-        const response = await fetch(
-          `${props.searchUrl}?pageNumber=${pageNumber}&pageSize=${PAGE_SIZE}`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams({ name: title }),
-          }
-        );
-
-        if (!response.ok)
-          throw new Error(
-            `Server error. Status: ${response.status} error code`
-          );
-
-        const apiResponse = (await response.json()) as ApiResponse;
-        setResponse(apiResponse);
-        return apiResponse;
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error('Something went wrong.', error.message);
-          setError(error);
-        }
-      }
-    },
-    [props.searchUrl, searchParams]
-  );
-
-  useEffect(() => {
-    const loadData = async (): Promise<void> => {
-      setIsLoading(true);
-      setError(undefined);
-
-      try {
-        await fetchData(activeSearch);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    void loadData();
-  }, [activeSearch, fetchData]);
+  const pageNumber = searchParams.get('pageNumber')
+    ? Number(searchParams.get('pageNumber')) - 1
+    : 0;
+  const [searchAstronomicalObj, { data, isLoading, error, isUninitialized }] =
+    useSearchAstronomicalObjMutation();
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setSearchTerm(event.currentTarget.value);
@@ -89,13 +33,22 @@ export default function SearchComponent(props: SearchProps): ReactNode {
   const handleOnClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
     const title = searchTerm.trim();
-
-    setActiveSearch(title);
-
-    setIsLoading(true);
-    setError(undefined);
+    setSearchTerm(title);
+    searchAstronomicalObj({ title: searchTerm, pageNumber: pageNumber });
     navigate('/');
   };
+
+  const hangeOnPageChange = (pageNumber: number = 0) => {
+    searchAstronomicalObj({ title: searchTerm, pageNumber: pageNumber });
+  };
+
+  if (isUninitialized) {
+    searchAstronomicalObj({ title: searchTerm, pageNumber: pageNumber });
+  }
+
+  if (error) {
+    return <ErrorMessage error={error} />;
+  }
 
   return (
     <div className={`search-component ${theme}`}>
@@ -120,12 +73,12 @@ export default function SearchComponent(props: SearchProps): ReactNode {
         </button>
       </div>
 
-      {response && !isLoading && !error && (
+      {data && !isLoading && !error && (
         <>
           <div className="content-layout">
             <div className="result-section">
-              {response.astronomicalObjects.length > 0 ? (
-                response.astronomicalObjects.map((obj, index) => {
+              {data.astronomicalObjects.length > 0 ? (
+                data.astronomicalObjects.map((obj, index) => {
                   return <CardComponent key={index} {...obj} />;
                 })
               ) : (
@@ -135,17 +88,16 @@ export default function SearchComponent(props: SearchProps): ReactNode {
             <Outlet />
           </div>
 
-          {response.astronomicalObjects.length > 0 && numberOfCards > 0 && (
+          {data.astronomicalObjects.length > 0 && numberOfCards > 0 && (
             <FlyoutComponent amount={numberOfCards} />
           )}
 
-          {response.page.numberOfElements > 0 && (
-            <PaginationComponent {...response.page} />
+          {data.page.numberOfElements > 0 && (
+            <PaginationComponent page={data.page} onClick={hangeOnPageChange} />
           )}
         </>
       )}
       {isLoading && !error && <SpinnerComponent />}
-      {error && <FallbackComponent message={error.message} />}
     </div>
   );
 }

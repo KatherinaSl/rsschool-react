@@ -7,8 +7,6 @@ import AboutComponent from './components/about/aboutComponent';
 import CardDetails from './components/CardDetails/cardDetailsComponent';
 import { ThemeProvider } from './context/themeProvider';
 
-const URL = 'https://stapi.co/api/v2/rest/astronomicalObject/search';
-
 const App = () => {
   return (
     <ErrorBoundary>
@@ -16,11 +14,8 @@ const App = () => {
         <ThemeProvider>
           <Routes>
             <Route path="/" element={<Outlet />}>
-              <Route index element={<SearchComponent searchUrl={URL} />} />
-              <Route
-                path="/cardDetails/:cardId"
-                element={<SearchComponent searchUrl={URL} />}
-              >
+              <Route index element={<SearchComponent />} />
+              <Route path="/cardDetails/:cardId" element={<SearchComponent />}>
                 <Route index element={<CardDetails />} />
               </Route>
             </Route>
