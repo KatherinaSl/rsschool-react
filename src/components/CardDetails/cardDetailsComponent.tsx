@@ -14,25 +14,6 @@ export default function CardDetails(): ReactNode {
     cardId ? cardId : ''
   );
 
-  // if (error) {
-  //   if ('status' in error) {
-  //     const errMsg =
-  //       'error' in error ? error.error : JSON.stringify(error.data);
-
-  //     return (
-  //       <div role="alert" className="error">
-  //         <h3>An error has occurred:</h3>
-  //         <p>{errMsg}</p>
-  //       </div>
-  //     );
-  //   }
-  //   return (
-  //     <div role="alert" className="error">
-  //       {error.message}
-  //     </div>
-  //   );
-  // }
-
   if (error) {
     return <ErrorMessage error={error} />;
   }
