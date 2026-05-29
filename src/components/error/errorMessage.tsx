@@ -1,5 +1,6 @@
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import type { SerializedError } from '@reduxjs/toolkit/react';
+import './fallbackComponent.css';
 
 export default function ErrorMessage({
   error,
