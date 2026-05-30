@@ -15,7 +15,6 @@ export default function RefreshButtonComponent({
   const dispatch = useDispatch();
   const [searchAstronomicalObj] = useSearchAstronomicalObjMutation();
   const onClick = () => {
-    console.log('refresh button');
     dispatch(
       astronomicalObjApi.util.invalidateTags([{ type: 'AstronomicalObject' }])
     );
