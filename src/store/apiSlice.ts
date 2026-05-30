@@ -18,7 +18,9 @@ export const astronomicalObjApi = createApi({
       query: (cardId) => `?uid=${cardId}`,
       transformResponse: (response: FullAstronomicalObjectResponse) =>
         response.astronomicalObject,
-      providesTags: ['AstronomicalObject'],
+      providesTags: (_res, _error, cardId) => [
+        { type: 'AstronomicalObject', id: cardId },
+      ],
     }),
     searchAstronomicalObj: build.mutation<
       ApiResponse,
