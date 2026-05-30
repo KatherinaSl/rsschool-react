@@ -16,7 +16,7 @@ export default function CardDetailsInfo({
       </p>
       {details.location ? (
         <>
-          <h3>Inforamtion about location</h3>
+          <h3>Information about location</h3>
           <p>
             <strong>Astronomical Object Type of Location:</strong>{' '}
             {details.location.astronomicalObjectType}

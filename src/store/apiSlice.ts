@@ -39,7 +39,7 @@ export const astronomicalObjApi = createApi({
     }),
   }),
 
-  keepUnusedDataFor: Number(import.meta.env.VITE_KEEP_UNUSED_DATA_FOR),
+  keepUnusedDataFor: 30
 });
 
 export const { useGetAstronomicalObjQuery, useSearchAstronomicalObjMutation } =
