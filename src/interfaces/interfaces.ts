@@ -29,10 +29,6 @@ interface CardDetails {
   };
 }
 
-export interface SearchProps {
-  searchUrl: string;
-}
-
 export interface Page {
   pageNumber: number;
   pageSize: number;

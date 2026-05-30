@@ -26,11 +26,23 @@ const mockCardDetailsData = {
   },
 };
 
+function createFetchResponse(body: unknown, ok = true, status = 200) {
+  const responseBody = JSON.stringify(body);
+  return {
+    ok,
+    status,
+    json: async () => body,
+    text: async () => responseBody,
+    clone() {
+      return this;
+    },
+  } as unknown as Response;
+}
+
 beforeEach(() => {
-  globalThis.fetch = jest.fn().mockResolvedValue({
-    ok: true,
-    json: async () => mockCardDetailsData,
-  } as Response);
+  globalThis.fetch = jest.fn().mockResolvedValue(
+    createFetchResponse({ astronomicalObject: mockCardDetailsData })
+  );
 });
 
 afterEach(() => {
