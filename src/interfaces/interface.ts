@@ -5,3 +5,10 @@ export interface FormInputInterface {
   gender: 'male' | 'female';
   terms: string;
 }
+
+export interface SubmittedFormData {
+  name: string;
+  age: number;
+  email: string;
+  gender: string;
+}

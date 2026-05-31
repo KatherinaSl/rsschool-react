@@ -1,0 +1,74 @@
+.card {
+  width: 100%;
+  max-width: 420px;
+  padding: 1.5rem;
+  margin: 1.5rem;
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.card__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.card__header h3 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 1.2rem;
+}
+
+.card__header span {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.card__body {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0.75rem 0;
+}
+
+.info-row span {
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.info-row strong {
+  color: #0f172a;
+  font-weight: 600;
+}

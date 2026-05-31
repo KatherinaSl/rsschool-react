@@ -54,7 +54,6 @@ export default function HookFormComponent() {
           Conditions
         </label>
 
-        {/* <input type="submit" /> */}
         <button type="submit" className="submit-btn">
           Submit
         </button>
