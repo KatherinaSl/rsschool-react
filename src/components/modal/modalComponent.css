@@ -1,0 +1,36 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(8px);
+  z-index: 999;
+  animation: fadeIn 0.25s ease;
+}
+
+.container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(90%, 500px);
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    0 10px 20px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  animation: modalPop 0.3s ease;
+}
+
+.content {
+  font-size: 1.1rem;
+  color: #1e293b;
+  text-align: center;
+}
+
+.close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
