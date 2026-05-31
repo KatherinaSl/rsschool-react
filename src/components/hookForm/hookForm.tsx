@@ -1,8 +1,8 @@
 import { useForm } from 'react-hook-form';
 import './hookForm.css';
-import type { FormInputInterface } from '../interfaces/interface';
+import type { FormInputInterface } from '../../interfaces/interface';
 import { useDispatch } from 'react-redux';
-import { save } from '../store/slice';
+import { save } from '../../store/slice';
 
 export default function HookFormComponent() {
   const { register, handleSubmit } = useForm<FormInputInterface>();
