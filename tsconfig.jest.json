@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "module": "es2015",
+    "verbatimModuleSyntax": false,
+    "esModuleInterop": true
+  },
+  "include": ["src", "src/__tests__"]
+}
