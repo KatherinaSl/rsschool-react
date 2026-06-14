@@ -1,1 +1,1 @@
-# rsschool-react
+# react-performance
