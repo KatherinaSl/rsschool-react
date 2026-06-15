@@ -45,7 +45,11 @@ export const getCo2ForYear = (yearMap: Map<number, YearData>, year: number): num
   return yearMap.get(year)?.co2;
 };
 
-export const getAvailableYears = (countries: Country[]): number[] => {
+export const getAvailableYears = (countries: Country[] | null): number[] => {
+  if (!countries) {
+    return [];
+  }
+
   const years = new Set<number>();
 
   countries.forEach((country) => {
