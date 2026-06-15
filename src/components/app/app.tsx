@@ -32,7 +32,6 @@ export const App = () => {
     isColumnModalOpen: false,
   });
 
-  // const years = data ? getAvailableYears(data) : [];
   const years = useMemo(() => getAvailableYears(data), [data]);
 
   const availableColumns = getAvailableColumns();
