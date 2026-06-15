@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useCo2Data } from '../../hooks/useCo2Data';
 import { LoadingSpinner } from '../loading-spinner/loading-spinner';
 import { SearchBar } from '../search-bar/search-bar';
@@ -37,37 +37,49 @@ export const App = () => {
 
   const availableColumns = getAvailableColumns();
 
-  const handleSearch = (value: string) => {
-    setState({ ...state, searchQuery: value });
-  };
+  const handleSearch = useCallback(
+    (value: string) => {
+      setState({ ...state, searchQuery: value });
+    },
+    [state]
+  );
 
-  const handleYearChange = (year: number) => {
-    setState({ ...state, selectedYear: year });
-  };
+  const handleYearChange = useCallback(
+    (year: number) => {
+      setState({ ...state, selectedYear: year });
+    },
+    [state]
+  );
 
-  const handleSortFieldChange = (field: 'name' | 'population') => {
-    setState({ ...state, sortField: field });
-  };
+  const handleSortFieldChange = useCallback(
+    (field: 'name' | 'population') => {
+      setState({ ...state, sortField: field });
+    },
+    [state]
+  );
 
-  const handleSortOrderToggle = () => {
+  const handleSortOrderToggle = useCallback(() => {
     setState({
       ...state,
       sortOrder: state.sortOrder === 'asc' ? 'desc' : 'asc',
     });
-  };
+  }, [state]);
 
-  const handleColumnToggle = (column: string) => {
-    setState({
-      ...state,
-      selectedColumns: state.selectedColumns.includes(column)
-        ? state.selectedColumns.filter((c) => c !== column)
-        : [...state.selectedColumns, column],
-    });
-  };
+  const handleColumnToggle = useCallback(
+    (column: string) => {
+      setState({
+        ...state,
+        selectedColumns: state.selectedColumns.includes(column)
+          ? state.selectedColumns.filter((c) => c !== column)
+          : [...state.selectedColumns, column],
+      });
+    },
+    [state]
+  );
 
-  const handleModalToggle = () => {
+  const handleModalToggle = useCallback(() => {
     setState({ ...state, isColumnModalOpen: !state.isColumnModalOpen });
-  };
+  }, [state]);
 
   if (isLoading) {
     return <LoadingSpinner />;
