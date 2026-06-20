@@ -1,10 +1,12 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import './flyoutComponent.css';
-import { removeAll, selectedCards } from '../../store/slice';
 import exportToCsv from '../../utils/convertToCSV';
+import { useAppDispatch } from '@/src/lib/hooks';
+import { selectedCards } from '@/src/lib/features/cards/cardsSelectors';
+import { removeAll } from '@/src/lib/features/cards/cardsSlice';
 
 export default function FlyoutComponent({ amount }: { amount: number }) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const cards = useSelector(selectedCards);
   const handleOnClick = () => dispatch(removeAll());
   const handleOnClickDownload = (): void => {

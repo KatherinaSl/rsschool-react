@@ -2,10 +2,12 @@ import './cardComponent.css';
 import type { AstronomicalObject } from '../../interfaces/interfaces';
 import type { ReactNode } from 'react';
 import { Link, useSearchParams } from 'react-router';
-import { isSelected, remove, save } from '../../store/slice';
-import { useDispatch, useSelector } from 'react-redux';
-import type { RootState } from '../../store/store';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../lib/store';
 import CheckboxComponent from '../checkbox/checkboxComponent';
+import { isSelected } from '@/src/lib/features/cards/cardsSelectors';
+import { remove, save } from '@/src/lib/features/cards/cardsSlice';
+import { useAppDispatch } from '@/src/lib/hooks';
 
 export default function CardComponent(props: AstronomicalObject): ReactNode {
   const [searchParams] = useSearchParams();
@@ -14,7 +16,7 @@ export default function CardComponent(props: AstronomicalObject): ReactNode {
   const isCardSelected = useSelector((state: RootState) =>
     isSelected(state, props.uid)
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch()
 
   const handleOnChange = () => {
     if (isCardSelected) {

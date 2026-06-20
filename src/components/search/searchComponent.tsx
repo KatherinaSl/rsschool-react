@@ -5,7 +5,7 @@ import useLocalStorage from '../hooks/useLocalStorage';
 import { Link, useSearchParams } from 'react-router';
 import { useNavigate } from 'react-router';
 import { ThemeContext } from '../../context/theme';
-import { useSearchAstronomicalObjMutation } from '../../store/apiSlice';
+import { useSearchAstronomicalObjMutation } from '../../lib/features/api/apiSlice';
 import ErrorMessage from '../error/errorMessage';
 import ResultsComponent from '../results/resultsComponent';
 import PaginationComponent from '../pagination/paginationComponent';

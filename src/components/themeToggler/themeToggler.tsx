@@ -1,3 +1,5 @@
+'use client';
+
 import { useContext } from 'react';
 import './themeToggler.css';
 import { ThemeContext } from '../../context/theme';

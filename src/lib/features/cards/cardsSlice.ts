@@ -1,6 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit/react';
-import type { AstronomicalObject } from '../interfaces/interfaces';
-import type { RootState } from './store';
+import type { AstronomicalObject } from '../../../interfaces/interfaces';
 
 export const cardsSlice = createSlice({
   name: 'cardSelected',
@@ -23,9 +22,5 @@ export const cardsSlice = createSlice({
 });
 
 export const { save, remove, removeAll } = cardsSlice.actions;
-export const amountOfCards = (state: RootState) => state.cardSelected.length;
-export const selectedCards = (state: RootState) => state.cardSelected;
-export const isSelected = (state: RootState, cardId: string) =>
-  !!state.cardSelected.find((card) => card.uid === cardId);
 
 export default cardsSlice.reducer;

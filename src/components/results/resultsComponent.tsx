@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux';
 import CardComponent from '../card/cardComponent';
 import FlyoutComponent from '../flyout/flyoutComponent';
-import { amountOfCards } from '../../store/slice';
 import { Outlet } from 'react-router';
 import type { ApiResponse } from '../../interfaces/interfaces';
 import './resultsComponent.css';
+import { amountOfCards } from '@/src/lib/features/cards/cardsSelectors';
 
 export default function ResultsComponent({
   data,

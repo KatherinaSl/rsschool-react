@@ -1,8 +1,8 @@
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '@/src/lib/hooks';
 import {
   astronomicalObjApi,
   useSearchAstronomicalObjMutation,
-} from '../../store/apiSlice';
+} from '../../lib/features/api/apiSlice';
 import './refreshButton.css';
 
 export default function RefreshButtonComponent({
@@ -12,7 +12,7 @@ export default function RefreshButtonComponent({
   title: string;
   pageNumber: number;
 }) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [searchAstronomicalObj] = useSearchAstronomicalObjMutation();
   const onClick = () => {
     dispatch(

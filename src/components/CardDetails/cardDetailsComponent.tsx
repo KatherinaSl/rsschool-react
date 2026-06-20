@@ -3,7 +3,7 @@ import './cardDetailsComponent.css';
 import { Link, useSearchParams, useParams } from 'react-router';
 import SpinnerComponent from '../spinner/spinnerComponent';
 import CardDetailsInfo from './cardDetailsInfoComponent';
-import { useGetAstronomicalObjQuery } from '../../store/apiSlice';
+import { useGetAstronomicalObjQuery } from '../../lib/features/api/apiSlice';
 import ErrorMessage from '../error/errorMessage';
 
 export default function CardDetails(): ReactNode {

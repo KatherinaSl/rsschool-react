@@ -3,7 +3,7 @@ import type {
   ApiResponse,
   FullAstronomicalObjectInfo,
   FullAstronomicalObjectResponse,
-} from '../interfaces/interfaces';
+} from '../../../interfaces/interfaces';
 
 const PAGE_SIZE = 6;
 
@@ -39,7 +39,7 @@ export const astronomicalObjApi = createApi({
     }),
   }),
 
-  keepUnusedDataFor: 30
+  keepUnusedDataFor: 30,
 });
 
 export const { useGetAstronomicalObjQuery, useSearchAstronomicalObjMutation } =
