@@ -1,10 +1,10 @@
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import CardComponent from '../card/cardComponent';
-import FlyoutComponent from '../flyout/flyoutComponent';
-import { Outlet } from 'react-router';
+// import FlyoutComponent from '../flyout/flyoutComponent';
+// import { Outlet } from 'react-router';
 import type { ApiResponse } from '../../interfaces/interfaces';
 import './resultsComponent.css';
-import { amountOfCards } from '@/src/lib/features/cards/cardsSelectors';
+// import { amountOfCards } from '@/src/lib/features/cards/cardsSelectors';
 
 export default function ResultsComponent({
   data,
@@ -12,7 +12,7 @@ export default function ResultsComponent({
   searchTerm: string;
   data: ApiResponse;
 }) {
-  const numberOfCards = useSelector(amountOfCards);
+  // const numberOfCards = useSelector(amountOfCards);
   return (
     <>
       <div className="content-layout">
@@ -25,12 +25,12 @@ export default function ResultsComponent({
             <p>No astronomical object found for the given search term.</p>
           )}
         </div>
-        <Outlet />
+        {/* <Outlet /> */}
       </div>
 
-      {data.astronomicalObjects.length > 0 && numberOfCards > 0 && (
+      {/* {data.astronomicalObjects.length > 0 && numberOfCards > 0 && (
         <FlyoutComponent amount={numberOfCards} />
-      )}
+      )} */}
     </>
   );
 }

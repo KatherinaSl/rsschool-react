@@ -1,26 +1,30 @@
-import { useContext, type ReactNode } from 'react';
+'use client';
+
+import { type ReactNode } from 'react';
 import './searchComponent.css';
-import SpinnerComponent from '../spinner/spinnerComponent';
+// import SpinnerComponent from '../spinner/spinnerComponent';
 import useLocalStorage from '../hooks/useLocalStorage';
-import { Link, useSearchParams } from 'react-router';
-import { useNavigate } from 'react-router';
-import { ThemeContext } from '../../context/theme';
-import { useSearchAstronomicalObjMutation } from '../../lib/features/api/apiSlice';
-import ErrorMessage from '../error/errorMessage';
-import ResultsComponent from '../results/resultsComponent';
-import PaginationComponent from '../pagination/paginationComponent';
-import RefreshButtonComponent from '../refreshButton/refreshButton';
+// import { useSearchParams } from 'react-router';
+// import { useNavigate } from 'react-router';
+import { redirect } from 'next/navigation';
+// import { ThemeContext } from '../../context/theme';
+// import { useSearchAstronomicalObjMutation } from '../../lib/features/api/apiSlice';
+// import ErrorMessage from '../error/errorMessage';
+// import ResultsComponent from '../results/resultsComponent';
+// import PaginationComponent from '../pagination/paginationComponent';
+// import RefreshButtonComponent from '../refreshButton/refreshButton';
 
 export default function SearchComponent(): ReactNode {
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm');
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const { theme, toggleTheme } = useContext(ThemeContext);
-  const pageNumber = searchParams.get('pageNumber')
-    ? Number(searchParams.get('pageNumber')) - 1
-    : 0;
-  const [searchAstronomicalObj, { data, isLoading, error, isUninitialized }] =
-    useSearchAstronomicalObjMutation();
+  // const [searchParams] = useSearchParams();
+  // const searchParams = useSearchParams();
+  // const navigate = useNavigate();
+  // const { theme, toggleTheme } = useContext(ThemeContext);
+  // const pageNumber = searchParams.get('pageNumber')
+  // ? Number(searchParams.get('pageNumber')) - 1
+  // : 0;
+  // const [searchAstronomicalObj, { data, isLoading, error, isUninitialized }] =
+  //   useSearchAstronomicalObjMutation();
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setSearchTerm(event.currentTarget.value);
@@ -30,33 +34,34 @@ export default function SearchComponent(): ReactNode {
     event.preventDefault();
     const title = searchTerm.trim();
     setSearchTerm(title);
-    searchAstronomicalObj({ title: searchTerm, pageNumber: pageNumber });
-    navigate('/');
+    // searchAstronomicalObj({ title: searchTerm, pageNumber: pageNumber });
+    // navigate('/');
+    redirect('/');
   };
 
-  const hangeOnPageChange = (pageNumber: number = 0) => {
-    searchAstronomicalObj({ title: searchTerm, pageNumber: pageNumber });
-  };
+  // const hangeOnPageChange = (pageNumber: number = 0) => {
+  //   searchAstronomicalObj({ title: searchTerm, pageNumber: pageNumber });
+  // };
 
-  if (isUninitialized) {
-    searchAstronomicalObj({ title: searchTerm, pageNumber: pageNumber });
-  }
+  // if (isUninitialized) {
+  //   searchAstronomicalObj({ title: searchTerm, pageNumber: pageNumber });
+  // }
 
-  if (error) {
-    return <ErrorMessage error={error} />;
-  }
+  // if (error) {
+  //   return <ErrorMessage error={error} />;
+  // }
 
   return (
-    <div className={`search-component ${theme}`}>
+    <div className={`search-component`}>
       <div className="header">
-        <h1>Star Track Astronomical Objects Search:</h1>
-        <Link to="/about">About</Link>
-        <button onClick={toggleTheme}>
+        {/* <h1>Star Track Astronomical Objects Search:</h1> */}
+        {/* <Link to="/about">About</Link> */}
+        {/* <button onClick={toggleTheme}>
           {theme ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-        </button>
+        </button> */}
       </div>
 
-      <RefreshButtonComponent title={searchTerm} pageNumber={pageNumber} />
+      {/* <RefreshButtonComponent title={searchTerm} pageNumber={pageNumber} /> */}
 
       <div>
         <input
@@ -71,15 +76,15 @@ export default function SearchComponent(): ReactNode {
         </button>
       </div>
 
-      {data && !isLoading && !error && (
+      {/* {data && !isLoading && !error && (
         <>
           <ResultsComponent searchTerm={searchTerm} data={data} />
           {data.page.numberOfElements > 0 && (
             <PaginationComponent page={data.page} onClick={hangeOnPageChange} />
           )}
         </>
-      )}
-      {isLoading && !error && <SpinnerComponent />}
+      )} */}
+      {/* {isLoading && !error && <SpinnerComponent />} */}
     </div>
   );
 }
