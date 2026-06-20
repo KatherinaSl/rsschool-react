@@ -1,5 +1,4 @@
-import AboutComponent from '../_components/about/aboutComponent';
-import '../../index.css';
+import AboutComponent from '@/app/_components/about/aboutComponent';
 
 export default function Page() {
   return <AboutComponent />;

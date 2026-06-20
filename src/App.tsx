@@ -1,5 +1,5 @@
-import './App.css';
-import SearchComponent from './components/search/searchComponent';
+// import './App.css';
+import SearchInputComponent from './app/_components/searchInput/searchInputComponent';
 import ErrorBoundary from './components/error/errorBoundary';
 import { BrowserRouter } from 'react-router';
 // import ErrorNotFound from './components/error/errorNotFound';
@@ -32,7 +32,7 @@ const App = () => {
     <ErrorBoundary>
       <BrowserRouter>
         {/* <Suspense fallback={<SpinnerComponent />}> */}
-        <SearchComponent></SearchComponent>
+        <SearchInputComponent></SearchInputComponent>
         {/* </Suspense> */}
       </BrowserRouter>
     </ErrorBoundary>

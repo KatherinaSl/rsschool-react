@@ -1,7 +1,7 @@
 import {
   ApiResponse,
   FullAstronomicalObjectResponse,
-} from '@/src/interfaces/interfaces';
+} from '@/interfaces/interfaces';
 
 const PAGE_SIZE = 6;
 const BASE_URL = 'https://stapi.co/api/v2/rest/astronomicalObject/search';

@@ -1,0 +1,18 @@
+.light {
+  --background: #eddcd2;
+  --text-color: #333333;
+  --button-background: #fff;
+  --input-text-background: #fff;
+  --button-border: transparent;
+  --button-hover-border: #4b9cd3;
+}
+
+.dark {
+  --background: #2f4550;
+  --text-color: #f5f5f5;
+  --button-background: #1a1a1a;
+  --input-text-background: #1a1a1a;
+  --text-color-placeholder: #f5f5f5;
+  --button-border: transparent;
+  --button-hover-border: #646cff;
+}

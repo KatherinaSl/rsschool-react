@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from 'react';
 import { ThemeContext } from './theme';
+import './themeToggler.css';
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [theme, setTheme] = useState('dark');
@@ -10,7 +11,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
+      <div className={`search-component ${theme}`}>{children}</div>
     </ThemeContext.Provider>
   );
 };

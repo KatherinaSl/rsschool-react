@@ -1,9 +1,9 @@
 'use client';
 
 import { type ReactNode } from 'react';
-import './searchComponent.css';
+import styles from './searchInputComponent.module.css';
 // import SpinnerComponent from '../spinner/spinnerComponent';
-import useLocalStorage from '../hooks/useLocalStorage';
+import useLocalStorage from '../../../components/hooks/useLocalStorage';
 // import { useSearchParams } from 'react-router';
 // import { useNavigate } from 'react-router';
 import { redirect } from 'next/navigation';
@@ -14,7 +14,7 @@ import { redirect } from 'next/navigation';
 // import PaginationComponent from '../pagination/paginationComponent';
 // import RefreshButtonComponent from '../refreshButton/refreshButton';
 
-export default function SearchComponent(): ReactNode {
+export default function SearchInputComponent(): ReactNode {
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm');
   // const [searchParams] = useSearchParams();
   // const searchParams = useSearchParams();
@@ -51,40 +51,57 @@ export default function SearchComponent(): ReactNode {
   //   return <ErrorMessage error={error} />;
   // }
 
-  return (
-    <div className={`search-component`}>
-      <div className="header">
-        {/* <h1>Star Track Astronomical Objects Search:</h1> */}
-        {/* <Link to="/about">About</Link> */}
-        {/* <button onClick={toggleTheme}>
+  // return (
+  // <div className={`search-component ${theme}`}>
+  {
+    /* <div className="header"> */
+  }
+  {
+    /* <h1>Star Track Astronomical Objects Search:</h1> */
+  }
+  {
+    /* <Link to="/about">About</Link> */
+  }
+  {
+    /* <button onClick={toggleTheme}>
           {theme ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-        </button> */}
-      </div>
+        </button> */
+  }
+  {
+    /* </div> */
+  }
 
-      {/* <RefreshButtonComponent title={searchTerm} pageNumber={pageNumber} /> */}
-
-      <div>
-        <input
-          name="search"
-          type="text"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={handleOnChange}
-        />
-        <button type="submit" onClick={handleOnClick}>
-          Search
-        </button>
-      </div>
-
-      {/* {data && !isLoading && !error && (
+  {
+    /* <RefreshButtonComponent title={searchTerm} pageNumber={pageNumber} /> */
+  }
+  return (
+    <div>
+      <input
+        name="search"
+        type="text"
+        placeholder="Search..."
+        className={styles.input}
+        value={searchTerm}
+        onChange={handleOnChange}
+      />
+      <button className={styles.button} type="submit" onClick={handleOnClick}>
+        Search
+      </button>
+    </div>
+  );
+  {
+    /* {data && !isLoading && !error && (
         <>
           <ResultsComponent searchTerm={searchTerm} data={data} />
           {data.page.numberOfElements > 0 && (
             <PaginationComponent page={data.page} onClick={hangeOnPageChange} />
           )}
         </>
-      )} */}
-      {/* {isLoading && !error && <SpinnerComponent />} */}
-    </div>
-  );
+      )} */
+  }
+  {
+    /* {isLoading && !error && <SpinnerComponent />} */
+  }
+  // </div>
+  // );
 }

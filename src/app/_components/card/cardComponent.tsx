@@ -1,5 +1,5 @@
-import './cardComponent.css';
-import type { AstronomicalObject } from '../../interfaces/interfaces';
+import styles from './cardComponent.module.css';
+import type { AstronomicalObject } from '../../../interfaces/interfaces';
 import type { ReactNode } from 'react';
 // import Link from 'next/link';
 // import {  useSearchParams } from 'react-router';
@@ -28,7 +28,7 @@ export default function CardComponent(props: AstronomicalObject): ReactNode {
   // };
 
   return (
-    <div className="card">
+    <div className={styles.card}>
       {/* <CheckboxComponent
         handleOnChange={handleOnChange}
         checked={isCardSelected}

@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import './aboutComponent.css';
+import styles from './aboutComponent.module.css';
 
 export default function AboutComponent() {
   return (
-    <div className="about">
+    <div className={styles.about}>
       <h3>
         Hi! My name is Kate and I&apos;m an author of this app. This is my&nbsp;
         <Link href="https://github.com/KatherinaSl">GithHub Profile</Link>.
