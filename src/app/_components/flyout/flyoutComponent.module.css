@@ -1,4 +1,4 @@
-.light {
+/* .light {
   --card-background-color: #b5b6d1;
   --button-background: #fff;
   --button-text-color: black;
@@ -10,7 +10,7 @@
   --button-background: #1a1a1a;
   --button-text-color: white;
   --unselect-button-background: #f44336;
-}
+} */
 
 .flyout-component {
   position: sticky;

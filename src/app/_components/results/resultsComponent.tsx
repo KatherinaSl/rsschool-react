@@ -4,6 +4,7 @@ import CardComponent from '../card/cardComponent';
 // import { Outlet } from 'react-router';
 import type { ApiResponse } from '../../../interfaces/interfaces';
 import styles from './resultsComponent.module.css';
+import FlyoutComponent from '@/app/_components/flyout/flyoutComponent';
 // import { amountOfCards } from '@/src/lib/features/cards/cardsSelectors';
 
 export default function ResultsComponent({
@@ -31,6 +32,7 @@ export default function ResultsComponent({
       {/* {data.astronomicalObjects.length > 0 && numberOfCards > 0 && (
         <FlyoutComponent amount={numberOfCards} />
       )} */}
+      {data.astronomicalObjects.length > 0 && <FlyoutComponent />}
     </>
   );
 }

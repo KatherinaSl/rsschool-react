@@ -1,6 +1,7 @@
 import styles from './cardComponent.module.css';
 import type { AstronomicalObject } from '../../../interfaces/interfaces';
 import type { ReactNode } from 'react';
+import CheckboxComponent from '../checkbox/checkboxComponent';
 // import Link from 'next/link';
 // import {  useSearchParams } from 'react-router';
 // import { useSelector } from 'react-redux';
@@ -12,7 +13,6 @@ import type { ReactNode } from 'react';
 
 export default function CardComponent(props: AstronomicalObject): ReactNode {
   // const [searchParams] = useSearchParams();
-  // const pageNumber = Number(searchParams.get('pageNumber')) || 1;
 
   // const isCardSelected = useSelector((state: RootState) =>
   //   isSelected(state, props.uid)
@@ -29,10 +29,10 @@ export default function CardComponent(props: AstronomicalObject): ReactNode {
 
   return (
     <div className={styles.card}>
-      {/* <CheckboxComponent
-        handleOnChange={handleOnChange}
-        checked={isCardSelected}
-      /> */}
+      <CheckboxComponent card={props}
+        // handleOnChange={handleOnChange}
+        // checked={isCardSelected}
+      />
 
       {/* <Link href={`/cardDetails/${props.uid}?pageNumber=${pageNumber}`}> */}
       <div>
