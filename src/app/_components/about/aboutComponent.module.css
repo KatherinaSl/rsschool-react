@@ -2,7 +2,7 @@
   max-width: 800px;
   margin: 80px auto;
   padding: 32px;
-  background: #111827;
+  background: var(--background-about);
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   text-align: center;
@@ -11,7 +11,7 @@
 .about p {
   font-size: 18px;
   line-height: 1.8;
-  color: #f3f4f6;
+  color: var(--text-color);
   margin: 0;
 }
 

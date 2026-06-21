@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import SearchInputComponent from './_components/searchInput/searchInputComponent';
-import { fetchAstronomicalObj } from '../lib/data/api-handlers';
+import { fetchAstronomicalObj } from '../lib/features/api/api-handlers';
 import ResultsComponent from '@/app/_components/results/resultsComponent';
 import PaginationComponent from '@/app/_components/pagination/paginationComponent';
 import ThemeButton from './_components/toggleTheme/toggleThemeComponent';
+import '@/styles/global.css';
 
 export default async function Page(props: {
   searchParams?: Promise<{

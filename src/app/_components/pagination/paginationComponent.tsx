@@ -18,10 +18,7 @@ export default function PaginationComponent({
         {'<'}
       </Link>
 
-      {/* <div className="pagination-page pagination-link"> */}
-      <div className={styles['pagination-page pagination-link']}>
-        {page.pageNumber + 1}
-      </div>
+      <div className={styles['pagination-link']}>{page.pageNumber + 1}</div>
 
       <Link
         href={`?pageNumber=${page.pageNumber + 2}`}

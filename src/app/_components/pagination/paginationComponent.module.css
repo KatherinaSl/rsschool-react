@@ -32,14 +32,3 @@
   cursor: not-allowed;
   pointer-events: none;
 }
-
-.pagination-bar {
-  display: flex;
-  gap: 8px;
-}
-
-.pagination-page:hover {
-  background-color: #646cff;
-  border-color: #fff;
-  color: #fff;
-}
