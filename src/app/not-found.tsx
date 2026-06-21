@@ -1,7 +1,5 @@
-import '../components/error/errorNotFound.css';
 import Link from 'next/link';
 
-//implement styles for light mode
 export default function NotFound() {
   return (
     <div className="error-container">
