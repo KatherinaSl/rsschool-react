@@ -1,25 +1,38 @@
 'use client';
 
-// import { useSelector } from 'react-redux';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { removeAll } from '@/lib/features/cards/cardsSlice';
 import {
   amountOfCards,
   selectedCards,
 } from '@/lib/features/cards/cardsSelectors';
-import exportToCsv from '@/utils/convertToCSV';
 import styles from './flyoutComponent.module.css';
-// import exportToCsv from '../../utils/convertToCSV';
-// import { selectedCards } from '@/src/lib/features/cards/cardsSelectors';
 
 export default function FlyoutComponent() {
   const dispatch = useAppDispatch();
   const cards = useAppSelector(selectedCards);
   const numberOfCards = useAppSelector(amountOfCards);
   const handleOnClick = () => dispatch(removeAll());
-  const handleOnClickDownload = (): void => {
-    const title = `${cards.length}_items.csv`;
-    exportToCsv(title, cards);
+  const handleOnClickDownload = async (): Promise<void> => {
+    const response = await fetch('/api/export-csv', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(cards),
+    });
+
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+
+    link.href = url;
+    link.download = `${cards.length}_items.csv`;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
   };
 
   return (
