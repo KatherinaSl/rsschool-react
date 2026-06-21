@@ -1,4 +1,4 @@
-import { AstronomicalObject } from '@/src/interfaces/interfaces';
+import { AstronomicalObject } from '@/interfaces/interfaces';
 import { RootState } from '../../store';
 
 export const amountOfCards = (state: RootState) => state.cardSelected.length;
