@@ -4,19 +4,20 @@ import { fetchAstronomicalObj } from '../lib/features/api/api-handlers';
 import ResultsComponent from '@/app/_components/results/resultsComponent';
 import PaginationComponent from '@/app/_components/pagination/paginationComponent';
 import ThemeButton from './_components/toggleTheme/toggleThemeComponent';
-import '@/styles/global.css';
-import { Suspense } from 'react';
-import SpinnerComponent from './_components/spinner/spinnerComponent';
 
-export default async function Page(props: {
-  searchParams?: Promise<{
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    searchTerm?: string;
     pageNumber?: string;
   }>;
 }) {
-  const searchParams = await props.searchParams;
-  const pageNumber = Number(searchParams?.pageNumber) - 1 || 0;
+  const { pageNumber, searchTerm } = await searchParams;
+  const page = Number(pageNumber) || 1;
+  const search = searchTerm ?? '';
 
-  const data = await fetchAstronomicalObj(pageNumber);
+  const data = await fetchAstronomicalObj(page - 1, search);
 
   return (
     <>
@@ -26,18 +27,12 @@ export default async function Page(props: {
         <ThemeButton />
       </div>
       <SearchInputComponent />
-      <Suspense fallback={<SpinnerComponent />}>
-        {data && (
-          <ResultsComponent
-            searchTerm={''}
-            data={data}
-            pageNumber={pageNumber}
-          />
-        )}
-        {data.page.numberOfElements > 0 && (
-          <PaginationComponent page={data.page} />
-        )}
-      </Suspense>
+      {data && (
+        <ResultsComponent data={data} pageNumber={page} searchTerm={search} />
+      )}
+      {data.page.numberOfElements > 0 && (
+        <PaginationComponent page={data.page} searchTerm={search} />
+      )}
     </>
   );
 }

@@ -4,9 +4,11 @@ import CheckboxComponent from '../checkbox/checkboxComponent';
 import Link from 'next/link';
 
 export default function CardComponent({
+  searchTerm,
   card,
   pageNumber,
 }: {
+  searchTerm: string,
   card: AstronomicalObject;
   pageNumber: number;
 }) {
@@ -14,7 +16,7 @@ export default function CardComponent({
     <div className={styles.card}>
       <CheckboxComponent card={card} />
 
-      <Link href={`/cardDetails/${card.uid}?pageNumber=${pageNumber}`}>
+      <Link href={`/cardDetails/${card.uid}?pageNumber=${pageNumber}&searchTerm=${searchTerm}`}>
         <div>
           <h4>{card.name}</h4>
           <p>

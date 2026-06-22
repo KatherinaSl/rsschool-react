@@ -8,8 +8,6 @@ import ThemeButton from '@/app/_components/toggleTheme/toggleThemeComponent';
 import SearchInputComponent from '@/app/_components/searchInput/searchInputComponent';
 import ResultsComponent from '@/app/_components/results/resultsComponent';
 import PaginationComponent from '@/app/_components/pagination/paginationComponent';
-import { Suspense } from 'react';
-import SpinnerComponent from '@/app/_components/spinner/spinnerComponent';
 
 export default async function Page({
   searchParams,
@@ -17,16 +15,19 @@ export default async function Page({
 }: {
   params: Promise<{ id: string }>;
   searchParams: Promise<{
+    searchTerm?: string;
     pageNumber?: string;
   }>;
 }) {
   const { id } = await params;
-  const { pageNumber } = await searchParams;
-  const page = pageNumber ? Number(pageNumber) : 1;
 
+  const { pageNumber, searchTerm } = await searchParams;
+  const page = Number(pageNumber) || 1;
+  const search = searchTerm ?? '';
   const response = await fetchAstronomicalObjDetails(id);
   const cardDetailsData = response.astronomicalObject;
-  const data = await fetchAstronomicalObj(page - 1);
+
+  const data = await fetchAstronomicalObj(page - 1, search);
 
   return (
     <>
@@ -38,16 +39,19 @@ export default async function Page({
       <SearchInputComponent />
 
       <div className="content-layout">
-        <Suspense fallback={<SpinnerComponent />}></Suspense>
         {data && (
-          <ResultsComponent searchTerm={''} data={data} pageNumber={page} />
+          <ResultsComponent data={data} pageNumber={page} searchTerm={search} />
         )}
         {cardDetailsData && (
-          <CardDetails data={cardDetailsData} pageNumber={page} />
+          <CardDetails
+            data={cardDetailsData}
+            pageNumber={page}
+            searchTerm={search}
+          />
         )}
       </div>
       {data.page.numberOfElements > 0 && (
-        <PaginationComponent page={data.page} />
+        <PaginationComponent page={data.page} searchTerm={search} />
       )}
     </>
   );

@@ -4,11 +4,12 @@ import styles from './resultsComponent.module.css';
 import FlyoutComponent from '@/app/_components/flyout/flyoutComponent';
 
 export default function ResultsComponent({
+  searchTerm,
   pageNumber,
   data,
 }: {
+  searchTerm: string,
   pageNumber: number;
-  searchTerm: string;
   data: ApiResponse;
 }) {
   return (
@@ -18,7 +19,7 @@ export default function ResultsComponent({
           {data.astronomicalObjects.length > 0 ? (
             data.astronomicalObjects.map((obj, index) => {
               return (
-                <CardComponent card={obj} key={index} pageNumber={pageNumber} />
+                <CardComponent card={obj} key={index} pageNumber={pageNumber} searchTerm={searchTerm} />
               );
             })
           ) : (

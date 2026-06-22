@@ -1,11 +1,14 @@
 'use client';
 
 import styles from './searchInputComponent.module.css';
-import useLocalStorage from '../../../hooks/useLocalStorage';
-import { redirect } from 'next/navigation';
+import { redirect, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 
 export default function SearchInputComponent() {
-  const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm');
+  const searchParams = useSearchParams();
+  const [searchTerm, setSearchTerm] = useState<string>(
+    searchParams.get('searchTerm') ?? ''
+  );
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setSearchTerm(event.currentTarget.value);
   };
@@ -14,7 +17,7 @@ export default function SearchInputComponent() {
     event.preventDefault();
     const title = searchTerm.trim();
     setSearchTerm(title);
-    redirect('/');
+    redirect(`/?searchTerm=${title}`);
   };
 
   return (

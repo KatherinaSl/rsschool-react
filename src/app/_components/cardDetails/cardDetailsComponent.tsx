@@ -4,9 +4,11 @@ import CardDetailsInfo from './cardDetailsInfoComponent';
 import styles from './cardDetailsComponent.module.css';
 
 export default function CardDetails({
+  searchTerm,
   data,
   pageNumber,
 }: {
+  searchTerm: string;
   data: FullAstronomicalObjectInfo;
   pageNumber: number;
 }) {
@@ -14,7 +16,7 @@ export default function CardDetails({
     <div className={styles['sidebar-wrapper']}>
       <div className={styles.sidebar}>
         <Link
-          href={`/?pageNumber=${pageNumber}`}
+          href={`/?pageNumber=${pageNumber}&searchTerm=${searchTerm}`}
           className={styles['hide-button']}
         >
           Hide details
