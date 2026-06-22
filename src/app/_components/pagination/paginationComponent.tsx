@@ -1,5 +1,4 @@
 import styles from './paginationComponent.module.css';
-import { type ReactNode } from 'react';
 import type { Page } from '../../../interfaces/interfaces';
 import Link from 'next/link';
 
@@ -7,7 +6,7 @@ export default function PaginationComponent({
   page,
 }: {
   page: Page;
-}): ReactNode {
+}) {
   return (
     <div className={styles.pagination}>
       <Link

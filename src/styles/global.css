@@ -39,9 +39,7 @@ h1 {
   display: flex;
   flex-direction: column;
   place-items: center;
-  /* min-width: 100vw; */
   min-height: 100vh;
-  /* gap: 20px; */
 
   line-height: 1.5;
 }
@@ -145,4 +143,12 @@ button:focus-visible {
   color: #777;
   display: block;
   margin-top: 5px;
+}
+
+.content-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  width: 90vw;
+  margin: 10px;
 }

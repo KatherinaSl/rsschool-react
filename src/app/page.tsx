@@ -5,6 +5,8 @@ import ResultsComponent from '@/app/_components/results/resultsComponent';
 import PaginationComponent from '@/app/_components/pagination/paginationComponent';
 import ThemeButton from './_components/toggleTheme/toggleThemeComponent';
 import '@/styles/global.css';
+import { Suspense } from 'react';
+import SpinnerComponent from './_components/spinner/spinnerComponent';
 
 export default async function Page(props: {
   searchParams?: Promise<{
@@ -24,10 +26,18 @@ export default async function Page(props: {
         <ThemeButton />
       </div>
       <SearchInputComponent />
-      {data && <ResultsComponent searchTerm={''} data={data} />}
-      {data.page.numberOfElements > 0 && (
-        <PaginationComponent page={data.page} />
-      )}
+      <Suspense fallback={<SpinnerComponent />}>
+        {data && (
+          <ResultsComponent
+            searchTerm={''}
+            data={data}
+            pageNumber={pageNumber}
+          />
+        )}
+        {data.page.numberOfElements > 0 && (
+          <PaginationComponent page={data.page} />
+        )}
+      </Suspense>
     </>
   );
 }

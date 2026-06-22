@@ -1,53 +1,33 @@
 import styles from './cardComponent.module.css';
 import type { AstronomicalObject } from '../../../interfaces/interfaces';
-import type { ReactNode } from 'react';
 import CheckboxComponent from '../checkbox/checkboxComponent';
-// import Link from 'next/link';
-// import {  useSearchParams } from 'react-router';
-// import { useSelector } from 'react-redux';
-// import type { RootState } from '../../lib/store';
-// import CheckboxComponent from '../checkbox/checkboxComponent';
-// import { isSelected } from '@/src/lib/features/cards/cardsSelectors';
-// import { remove, save } from '@/src/lib/features/cards/cardsSlice';
-// import { useAppDispatch } from '@/src/lib/hooks';
+import Link from 'next/link';
 
-export default function CardComponent(props: AstronomicalObject): ReactNode {
-  // const [searchParams] = useSearchParams();
-
-  // const isCardSelected = useSelector((state: RootState) =>
-  //   isSelected(state, props.uid)
-  // );
-  // const dispatch = useAppDispatch()
-
-  // const handleOnChange = () => {
-  //   if (isCardSelected) {
-  //     dispatch(remove(props.uid));
-  //   } else {
-  //     dispatch(save(props));
-  //   }
-  // };
-
+export default function CardComponent({
+  card,
+  pageNumber,
+}: {
+  card: AstronomicalObject;
+  pageNumber: number;
+}) {
   return (
     <div className={styles.card}>
-      <CheckboxComponent card={props}
-        // handleOnChange={handleOnChange}
-        // checked={isCardSelected}
-      />
+      <CheckboxComponent card={card} />
 
-      {/* <Link href={`/cardDetails/${props.uid}?pageNumber=${pageNumber}`}> */}
-      <div>
-        <h4>{props.name}</h4>
-        <p>
-          <strong>Actronomical object type:</strong>{' '}
-          {props.astronomicalObjectType}
-        </p>
-        {props.location && (
+      <Link href={`/cardDetails/${card.uid}?pageNumber=${pageNumber}`}>
+        <div>
+          <h4>{card.name}</h4>
           <p>
-            <strong>Location:</strong> {props.location.name}
+            <strong>Actronomical object type:</strong>{' '}
+            {card.astronomicalObjectType}
           </p>
-        )}
-      </div>
-      {/* </Link> */}
+          {card.location && (
+            <p>
+              <strong>Location:</strong> {card.location.name}
+            </p>
+          )}
+        </div>
+      </Link>
     </div>
   );
 }

@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" className={inter.className}>
       <body>
         <StoreProvider>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>{children} </ThemeProvider>
         </StoreProvider>
       </body>
     </html>
