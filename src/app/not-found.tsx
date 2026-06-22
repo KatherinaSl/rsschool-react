@@ -1,12 +1,13 @@
-import Link from 'next/link';
+'use client';
 
-export default function NotFound() {
+import Error from 'next/error';
+
+export default function GlobalNotFound() {
   return (
-    <div className="error-container">
-      <div className="error-message">404 Not Found</div>
-      <Link href="/">
-        <button>Main page</button>
-      </Link>
-    </div>
+    <html lang="en">
+      <body>
+        <Error statusCode={404} />;
+      </body>
+    </html>
   );
 }

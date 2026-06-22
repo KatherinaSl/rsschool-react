@@ -7,8 +7,10 @@ import {
   selectedCards,
 } from '@/lib/features/cards/cardsSelectors';
 import styles from './flyoutComponent.module.css';
+import { useTranslations } from 'next-intl';
 
 export default function FlyoutComponent() {
+  const t = useTranslations('Flyout');
   const dispatch = useAppDispatch();
   const cards = useAppSelector(selectedCards);
   const numberOfCards = useAppSelector(amountOfCards);
@@ -39,9 +41,9 @@ export default function FlyoutComponent() {
     <>
       {numberOfCards > 0 && (
         <div className={styles['flyout-component']}>
-          <p>{`${numberOfCards} cards are selected`}</p>
+          <p>{`${numberOfCards} ${t('desc')}`}</p>
           <button className={styles['unselect-button']} onClick={handleOnClick}>
-            Unselect All
+            {t('unselect')}
           </button>
 
           <button
@@ -49,7 +51,7 @@ export default function FlyoutComponent() {
             value="download"
             onClick={handleOnClickDownload}
           >
-            Download
+            {t('download')}
           </button>
         </div>
       )}

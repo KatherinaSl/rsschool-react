@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import type { FullAstronomicalObjectInfo } from '../../../interfaces/interfaces';
 import styles from './cardDetailsComponent.module.css';
 
@@ -6,31 +7,31 @@ export default function CardDetailsInfo({
 }: {
   details: FullAstronomicalObjectInfo;
 }) {
+  const t = useTranslations('CardDetails');
+
   return (
     <div className={styles['card-information']}>
       <p>
-        <strong>Name:</strong> {details.name}
+        <strong>{t('name')}</strong> {details.name}
       </p>
       <p>
-        <strong>Astronomical Object Type:</strong>{' '}
+        <strong>{t('type')}</strong>
         {details.astronomicalObjectType}
       </p>
       {details.location ? (
         <>
-          <h3>Information about location</h3>
+          <h3>{t('location-title')}</h3>
           <p>
-            <strong>Astronomical Object Type of Location:</strong>{' '}
+            <strong>{t('location')}</strong>{' '}
             {details.location.astronomicalObjectType}
           </p>
           <p>
-            <strong>Location name:</strong> {details.location.location.name}
+            <strong>{t('location-name')}</strong>{' '}
+            {details.location.location.name}
           </p>
         </>
       ) : (
-        <p>
-          There is no additional information about this astronomical object
-          location
-        </p>
+        <p>{t('notfound')}</p>
       )}
     </div>
   );

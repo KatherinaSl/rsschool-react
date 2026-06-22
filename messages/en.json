@@ -1,0 +1,61 @@
+{
+  "HomePage": {
+    "title": "Star Track Astronomical Objects Search: ",
+    "about": "About"
+  },
+  "AboutPage": {
+    "desc": "Hi! My name is Kate and I'm an author of this app. This is my ",
+    "link": "GithHub Profile",
+    "app-desc": "This application is created to search for Astronomical Objects within the ",
+    "rss-link": "RS School React course programme."
+  },
+  "Check": {
+    "select": "Select"
+  },
+  "Flyout": {
+    "desc": " cards are selected",
+    "unselect": "Unselect All",
+    "download": "Download"
+  },
+  "NotFoundPage": {
+    "notfound": "404 Not Found",
+    "button": "Main page"
+  },
+  "RefreshButton": {
+    "button": "Refresh"
+  },
+  "ResultsComp": {
+    "notfound": "No astronomical object found for the given search term."
+  },
+  "SearchComp": {
+    "placeholder": "Search...",
+    "button": "Search"
+  },
+  "CardComp": {
+    "type": "Astronomical Object Type: ",
+    "location": "Location: "
+  },
+  "CardDetails": {
+    "link": "Hide details",
+    "title": "Information about astronomical object ",
+    "name": "Name: ",
+    "type": "Astronomical Object Type: ",
+    "location-title": "Information about location",
+    "location": "Astronomical Object Type of Location: ",
+    "location-name": "Location name: ",
+    "notfound": "There is no additional information about this astronomical object location"
+  },
+  "ThemeSwitcher": {
+    "light": "Switch to Light Mode",
+    "dark": "Switch to Dark Mode"
+  },
+  "Lang": {
+    "ru": "Russian",
+    "en": "English"
+  },
+  "Error": {
+    "title": "Something went wrong...",
+    "desc": "Please, contact system administrator",
+    "button": "Go home"
+  }
+}

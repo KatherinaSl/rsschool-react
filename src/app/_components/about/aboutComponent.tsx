@@ -1,19 +1,18 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import styles from './aboutComponent.module.css';
+import { useTranslations } from 'next-intl';
 
 export default function AboutComponent() {
+  const t = useTranslations('AboutPage');
   return (
     <div className={styles.about}>
       <h3>
-        Hi! My name is Kate and I&apos;m an author of this app. This is my&nbsp;
-        <Link href="https://github.com/KatherinaSl">GithHub Profile</Link>.
+        {t('desc')}&nbsp;
+        <Link href="https://github.com/KatherinaSl">{t('link')}</Link>.
       </h3>
       <p>
-        This application is created to search for Astronomical Objects within
-        the&nbsp;
-        <Link href="https://rs.school/courses/reactjs">
-          RS School React course programme.
-        </Link>
+        {t('app-desc')}&nbsp;
+        <Link href="https://rs.school/courses/reactjs">{t('rss-link')}</Link>
       </p>
     </div>
   );

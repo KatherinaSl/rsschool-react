@@ -6,12 +6,14 @@ import { RootState } from '@/lib/store';
 import { remove, save } from '@/lib/features/cards/cardsSlice';
 import { isSelected } from '@/lib/features/cards/cardsSelectors';
 import { AstronomicalObject } from '@/interfaces/interfaces';
+import { useTranslations } from 'next-intl';
 
 export default function CheckboxComponent({
   card,
 }: {
   card: AstronomicalObject;
 }) {
+  const t = useTranslations('Check');
   const isCardSelected = useAppSelector((state: RootState) =>
     isSelected(state, card.uid)
   );
@@ -32,7 +34,7 @@ export default function CheckboxComponent({
           checked={isCardSelected}
           onChange={handleOnChange}
         />
-        Select
+        {t('select')}
       </label>
     </div>
   );

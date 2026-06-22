@@ -1,31 +1,36 @@
 import styles from './cardComponent.module.css';
 import type { AstronomicalObject } from '../../../interfaces/interfaces';
 import CheckboxComponent from '../checkbox/checkboxComponent';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 
 export default function CardComponent({
   searchTerm,
   card,
   pageNumber,
 }: {
-  searchTerm: string,
+  searchTerm: string;
   card: AstronomicalObject;
   pageNumber: number;
 }) {
+  const t = useTranslations('CardComp');
+
   return (
     <div className={styles.card}>
       <CheckboxComponent card={card} />
 
-      <Link href={`/cardDetails/${card.uid}?pageNumber=${pageNumber}&searchTerm=${searchTerm}`}>
+      <Link
+        href={`/cardDetails/${card.uid}?pageNumber=${pageNumber}&searchTerm=${searchTerm}`}
+      >
         <div>
           <h4>{card.name}</h4>
           <p>
-            <strong>Actronomical object type:</strong>{' '}
+            <strong>{t('type')}</strong>
             {card.astronomicalObjectType}
           </p>
           {card.location && (
             <p>
-              <strong>Location:</strong> {card.location.name}
+              <strong>{t('location')}</strong> {card.location.name}
             </p>
           )}
         </div>

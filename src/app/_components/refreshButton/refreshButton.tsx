@@ -2,8 +2,11 @@
 
 import { useRouter } from 'next/navigation';
 import styles from './refreshButton.module.css';
+import { useTranslations } from 'next-intl';
 
 export default function RefreshButtonComponent() {
+  const t = useTranslations('RefreshButton');
+
   const router = useRouter();
 
   return (
@@ -11,7 +14,7 @@ export default function RefreshButtonComponent() {
       className={styles['refresh-button']}
       onClick={() => router.refresh()}
     >
-      Refresh
+      {t('button')}
     </button>
   );
 }

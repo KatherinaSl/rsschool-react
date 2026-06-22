@@ -2,16 +2,19 @@ import CardComponent from '../card/cardComponent';
 import type { ApiResponse } from '../../../interfaces/interfaces';
 import styles from './resultsComponent.module.css';
 import FlyoutComponent from '@/app/_components/flyout/flyoutComponent';
+import { useTranslations } from 'next-intl';
 
 export default function ResultsComponent({
   searchTerm,
   pageNumber,
   data,
 }: {
-  searchTerm: string,
+  searchTerm: string;
   pageNumber: number;
   data: ApiResponse;
 }) {
+  const t = useTranslations('ResultsComp');
+
   return (
     <>
       <div className={styles['content-layout']}>
@@ -19,11 +22,16 @@ export default function ResultsComponent({
           {data.astronomicalObjects.length > 0 ? (
             data.astronomicalObjects.map((obj, index) => {
               return (
-                <CardComponent card={obj} key={index} pageNumber={pageNumber} searchTerm={searchTerm} />
+                <CardComponent
+                  card={obj}
+                  key={index}
+                  pageNumber={pageNumber}
+                  searchTerm={searchTerm}
+                />
               );
             })
           ) : (
-            <p>No astronomical object found for the given search term.</p>
+            <p>{t('notfound')}</p>
           )}
         </div>
       </div>

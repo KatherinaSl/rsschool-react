@@ -1,6 +1,6 @@
 import styles from './paginationComponent.module.css';
 import type { Page } from '../../../interfaces/interfaces';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 
 export default function PaginationComponent({
   searchTerm,

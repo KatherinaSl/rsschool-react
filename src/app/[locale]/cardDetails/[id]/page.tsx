@@ -3,12 +3,14 @@ import {
   fetchAstronomicalObj,
   fetchAstronomicalObjDetails,
 } from '@/lib/features/api/api-handlers';
-import Link from 'next/link';
 import ThemeButton from '@/app/_components/toggleTheme/toggleThemeComponent';
 import SearchInputComponent from '@/app/_components/searchInput/searchInputComponent';
 import ResultsComponent from '@/app/_components/results/resultsComponent';
 import PaginationComponent from '@/app/_components/pagination/paginationComponent';
 import RefreshButtonComponent from '@/app/_components/refreshButton/refreshButton';
+import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/navigation';
+import LocaleSwitcher from '@/app/_components/localeSwitcher/localeSwitcher';
 
 export default async function Page({
   searchParams,
@@ -20,6 +22,8 @@ export default async function Page({
     pageNumber?: string;
   }>;
 }) {
+  const t = await getTranslations('HomePage');
+
   const { id } = await params;
 
   const { pageNumber, searchTerm } = await searchParams;
@@ -33,8 +37,9 @@ export default async function Page({
   return (
     <>
       <div className="header">
-        <h1>Star Track Astronomical Objects Search:</h1>
-        <Link href="/about">About</Link>
+        <h1>{t('title')}</h1>
+        <Link href="/about">{t('about')}</Link>
+        <LocaleSwitcher />
         <ThemeButton />
       </div>
       <SearchInputComponent />

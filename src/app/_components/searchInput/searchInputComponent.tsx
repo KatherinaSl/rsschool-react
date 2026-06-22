@@ -1,10 +1,13 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import styles from './searchInputComponent.module.css';
 import { redirect, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
 export default function SearchInputComponent() {
+  const t = useTranslations('SearchComp');
+
   const searchParams = useSearchParams();
   const [searchTerm, setSearchTerm] = useState<string>(
     searchParams.get('searchTerm') ?? ''
@@ -25,13 +28,13 @@ export default function SearchInputComponent() {
       <input
         name="search"
         type="text"
-        placeholder="Search..."
+        placeholder={t('placeholder')}
         className={styles.input}
         value={searchTerm}
         onChange={handleOnChange}
       />
       <button className={styles.button} type="submit" onClick={handleOnClick}>
-        Search
+        {t('button')}
       </button>
     </div>
   );
