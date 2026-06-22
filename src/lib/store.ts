@@ -5,7 +5,6 @@ export const store = () =>
   configureStore({
     reducer: {
       cardSelected: cardSelectedReducer,
-      // [astronomicalObjApi.reducerPath]: astronomicalObjApi.reducer,
     },
 
     middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
