@@ -1,9 +1,12 @@
 .flyout-component {
-  position: sticky;
+  position: fixed;
   bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
   color: black;
   display: flex;
   flex-direction: column;
+  align-self: center;
   align-items: center;
   margin: 0 auto;
   flex-basis: 50%;
