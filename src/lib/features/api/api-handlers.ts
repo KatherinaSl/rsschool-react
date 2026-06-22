@@ -4,13 +4,13 @@ import {
 } from '@/interfaces/interfaces';
 
 const PAGE_SIZE = 6;
-const BASE_URL = 'https://stapi.co/api/v2/rest/astronomicalObject/search';
+const BASE_URL = 'https://stapi.co/api/v2/rest/astronomicalObject';
 
 export async function fetchAstronomicalObj(
   pageNumber: number
   //   searchTerm: string
 ): Promise<ApiResponse> {
-  const url = `${BASE_URL}?pageNumber=${pageNumber}&pageSize=${PAGE_SIZE}`;
+  const url = `${BASE_URL}/search?pageNumber=${pageNumber}&pageSize=${PAGE_SIZE}`;
   const response = await fetch(url, {
     method: 'POST',
     // body: new URLSearchParams({ title: searchTerm }),
