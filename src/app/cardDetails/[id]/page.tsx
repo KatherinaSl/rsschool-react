@@ -8,6 +8,7 @@ import ThemeButton from '@/app/_components/toggleTheme/toggleThemeComponent';
 import SearchInputComponent from '@/app/_components/searchInput/searchInputComponent';
 import ResultsComponent from '@/app/_components/results/resultsComponent';
 import PaginationComponent from '@/app/_components/pagination/paginationComponent';
+import RefreshButtonComponent from '@/app/_components/refreshButton/refreshButton';
 
 export default async function Page({
   searchParams,
@@ -37,7 +38,7 @@ export default async function Page({
         <ThemeButton />
       </div>
       <SearchInputComponent />
-
+      <RefreshButtonComponent />
       <div className="content-layout">
         {data && (
           <ResultsComponent data={data} pageNumber={page} searchTerm={search} />

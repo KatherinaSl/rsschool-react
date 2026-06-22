@@ -4,6 +4,7 @@ import { fetchAstronomicalObj } from '../lib/features/api/api-handlers';
 import ResultsComponent from '@/app/_components/results/resultsComponent';
 import PaginationComponent from '@/app/_components/pagination/paginationComponent';
 import ThemeButton from './_components/toggleTheme/toggleThemeComponent';
+import RefreshButtonComponent from './_components/refreshButton/refreshButton';
 
 export default async function Page({
   searchParams,
@@ -27,6 +28,8 @@ export default async function Page({
         <ThemeButton />
       </div>
       <SearchInputComponent />
+      <RefreshButtonComponent />
+
       {data && (
         <ResultsComponent data={data} pageNumber={page} searchTerm={search} />
       )}
