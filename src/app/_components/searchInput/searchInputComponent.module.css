@@ -1,0 +1,43 @@
+.button {
+  color: var(--text-color);
+  border: 2px solid var(--button-border);
+  background-color: var(--button-background);
+
+  align-self: center;
+
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
+  margin: 1em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+.button:hover {
+  border-color: var(--button-hover-border);
+}
+
+.button:focus,
+.button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.input {
+  margin: 15px;
+  padding: 5px;
+  font-size: 1.2em;
+}
+
+.input {
+  background-color: var(--input-text-background);
+  color: var(--text-color-placeholder);
+  border: 1px solid black;
+}
+
+.input:focus::placeholder {
+  color: transparent;
+  background-color: var(--input-text-background);
+  color: var(--text-color-placeholder);
+}

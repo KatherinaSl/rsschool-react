@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, type ReactNode } from 'react';
 import { ThemeContext } from './theme';
 
@@ -8,7 +10,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
+      <div className={`search-component ${theme}`}>{children}</div>
     </ThemeContext.Provider>
   );
 };
